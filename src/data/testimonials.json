@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "t1",
+    "name": "Priya Sharma",
+    "occasion": "Bridal Makeup",
+    "text": "Meenu made me feel like an absolute princess on my wedding day. The makeup lasted all night and looked flawless in photos!",
+    "rating": 5,
+    "image": "",
+    "date": "2024-05-12T00:00:00Z"
+  },
+  {
+    "_id": "t2",
+    "name": "Ananya Desai",
+    "occasion": "Reception",
+    "text": "I was nervous about getting my makeup done, but the team here understood exactly what I wanted. A natural, glowing look that was just perfect.",
+    "rating": 5,
+    "image": "",
+    "date": "2024-06-03T00:00:00Z"
+  }
+]
