@@ -227,3 +227,10 @@ body {
   mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
 }
+
+/* ── Shimmer Animation ── */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}

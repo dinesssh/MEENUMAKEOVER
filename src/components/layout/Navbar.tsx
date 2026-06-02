@@ -3,25 +3,32 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 import { usePlausible } from "next-plausible";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { TYPE_TOKENS } from "@/lib/typography";
-import { H3 } from "@/components/ui/Typography";
+
+const Instagram = ({ size = 24, strokeWidth = 2, className = "" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className}>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
+
+
 
 const navLinks = [
   { name: "Home",     href: "/" },
   { name: "About",    href: "/#about" },
-  { name: "Services", href: "/#services" },
-  { name: "Gallery",  href: "/#gallery" },
   { name: "Bridal",   href: "/bridal" },
   { name: "Salon",    href: "/salon" },
+  { name: "Gallery",  href: "/#gallery" },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const plausible = usePlausible();
 
   useEffect(() => {
@@ -31,7 +38,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
+    if (isMenuOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
@@ -39,115 +46,160 @@ export default function Navbar() {
     return () => {
       document.body.style.overflow = "";
     };
-  }, [isMobileMenuOpen]);
+  }, [isMenuOpen]);
 
-  const closeMenu = () => setIsMobileMenuOpen(false);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? "bg-[#2e1e12]/98 backdrop-blur-lg shadow-[0_2px_20px_rgba(0,0,0,0.4)] h-16"
-            : "bg-[#2e1e12]/92 backdrop-blur-sm h-20"
-        }`}
+        className={cn(
+          "fixed top-0 left-0 right-0 z-[100] transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)] flex items-center justify-between px-6 md:px-12",
+          isScrolled || isMenuOpen
+            ? "bg-[#111111]/95 backdrop-blur-md h-20 shadow-[0_4px_30px_rgba(0,0,0,0.1)] border-b border-white/5"
+            : "bg-gradient-to-b from-black/80 via-black/40 to-transparent h-28"
+        )}
       >
-        <div className="section-container h-full flex items-center justify-between">
-
         {/* ── Logo + Brand Text ── */}
-        <Link href="/" className="flex items-center gap-4 flex-shrink-0">
+        <Link href="/" className="flex items-center gap-4 flex-shrink-0 group z-50" onClick={() => setIsMenuOpen(false)}>
           {/* Logo image */}
-          <div className="relative flex-shrink-0 w-12 h-12 md:w-14 md:h-14">
+          <div className="relative flex-shrink-0 w-12 h-12 md:w-14 md:h-14 transition-transform duration-500 group-hover:scale-105">
             <Image
               src="/logo.webp"
               alt="Meenu Makeover"
               fill
-              className="object-contain"
+              className="object-contain drop-shadow-[0_0_10px_rgba(184,134,11,0.3)]"
               priority
             />
           </div>
           {/* Brand text */}
-          <div className="flex flex-col justify-center leading-none border-l border-[#b8893e]/30 pl-4">
-            <span className="font-heading text-[#d4a574] text-base md:text-lg tracking-[0.12em] leading-snug">
+          <div className="flex flex-col justify-center leading-none border-l border-[#B8860B]/40 pl-4 py-1">
+            <span className="font-heading text-[#D4AF37] text-lg md:text-xl tracking-[0.15em] leading-snug drop-shadow-md">
               Meenu Makeover
             </span>
-            <span className="font-sans text-white/40 text-[8px] md:text-[9px] tracking-[0.25em] uppercase mt-0.5">
+            <span className="font-sans text-white/60 text-[9px] md:text-[10px] tracking-[0.3em] uppercase mt-1">
               Luxury Bridal Studio
             </span>
           </div>
         </Link>
 
-        {/* ── Desktop Nav (centered via flex-1) ── */}
-        <nav className="hidden md:flex flex-1 items-center justify-center gap-8 lg:gap-10">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className={cn(TYPE_TOKENS.navLink, "text-white/65 hover:text-[#d4a574] transition-colors duration-200")}
-            >
-              {link.name}
-            </Link>
-          ))}
-        </nav>
-
-        {/* ── CTA Button ── */}
-        <a
-          href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hi%20Meenu,%20I%27m%20interested%20in%20a%20bridal%20consultation`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => plausible("whatsapp_nav_click")}
-          className={cn(TYPE_TOKENS.button, "hidden lg:inline-flex items-center gap-2 px-5 py-2 border border-[#b8893e]/60 text-[#d4a574] rounded-full hover:bg-[#b8893e] hover:text-[#2e1e12] hover:border-[#b8893e] transition-all duration-300 flex-shrink-0")}
-        >
-          Book Consultation
-        </a>
-
-        {/* ── Mobile Hamburger ── */}
+        {/* ── Menu Trigger ── */}
         <button
-          className="md:hidden text-white/80 hover:text-[#d4a574] transition-colors p-3 -mr-3"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          onClick={toggleMenu}
+          className="flex items-center gap-3 group z-50 focus:outline-none"
           aria-label="Toggle menu"
           suppressHydrationWarning
         >
-          {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          <span className="hidden md:block font-sans text-[11px] uppercase tracking-[0.2em] font-medium text-white group-hover:text-[#B8860B] transition-colors duration-300">
+            {isMenuOpen ? "Close" : "Menu"}
+          </span>
+          <div className="relative w-8 h-8 flex items-center justify-center">
+            {isMenuOpen ? (
+              <X size={28} className="text-white group-hover:text-[#B8860B] transition-colors duration-300" />
+            ) : (
+              <div className="flex flex-col gap-1.5 items-end">
+                <span className="block w-7 h-px bg-white group-hover:bg-[#B8860B] transition-all duration-300" />
+                <span className="block w-5 h-px bg-white group-hover:bg-[#B8860B] group-hover:w-7 transition-all duration-300" />
+                <span className="block w-7 h-px bg-white group-hover:bg-[#B8860B] transition-all duration-300" />
+              </div>
+            )}
+          </div>
         </button>
-      </div>
-    </header>
+      </header>
 
-      {/* ── Mobile Drawer ── */}
+      {/* ── Full Screen Luxury Menu Overlay ── */}
       <div
-        className={`fixed inset-0 bg-[#2e1e12] z-[100] flex flex-col items-center justify-center gap-12 transition-transform duration-300 ease-out md:hidden ${
-          isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={cn(
+          "fixed inset-0 z-[90] flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]",
+          isMenuOpen ? "opacity-100 visible" : "opacity-0 invisible delay-200"
+        )}
       >
-        <button
-          className="absolute top-4 right-4 p-6 text-[#f5efe6] hover:text-[#d4a574] transition-colors"
-          onClick={closeMenu}
-          aria-label="Close menu"
-        >
-          <X size={32} />
-        </button>
+        {/* Background Layers */}
+        <div 
+          className={cn(
+            "absolute inset-0 bg-[#111111]/90 backdrop-blur-2xl transition-transform duration-[800ms] ease-[cubic-bezier(0.25,1,0.5,1)]",
+            isMenuOpen ? "scale-y-100 origin-top" : "scale-y-0 origin-bottom"
+          )}
+        />
+        <div 
+          className={cn(
+            "absolute inset-0 bg-[url('/bg-pattern.png')] opacity-5 transition-opacity duration-1000 delay-300",
+            isMenuOpen ? "opacity-5" : "opacity-0"
+          )}
+        />
 
-        <nav className="flex flex-col items-center space-y-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              onClick={closeMenu}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center md:items-start h-full pt-32 pb-16">
+          
+          {/* Left Side: Navigation Links */}
+          <nav className="flex flex-col space-y-6 md:space-y-8 w-full md:w-auto text-center md:text-left mt-10 md:mt-20">
+            {navLinks.map((link, idx) => (
+              <Link
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsMenuOpen(false)}
+                className={cn(
+                  "group overflow-hidden inline-block transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]",
+                  isMenuOpen ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
+                )}
+                style={{ transitionDelay: `${100 + idx * 50}ms` }}
+              >
+                <div className="flex items-center gap-4">
+                  <span className="font-sans text-[12px] text-[#B8860B] opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all duration-300">0{idx + 1}</span>
+                  <span className="font-heading text-[40px] md:text-[64px] lg:text-[80px] text-white/90 group-hover:text-white transition-colors duration-300 leading-none">
+                    {link.name}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </nav>
+
+          {/* Right Side: Contact & Socials */}
+          <div className={cn(
+            "flex flex-col items-center md:items-end w-full md:w-auto mt-16 md:mt-24 transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)]",
+            isMenuOpen ? "translate-x-0 opacity-100 delay-[400ms]" : "translate-x-12 opacity-0"
+          )}>
+            
+            <div className="text-center md:text-right mb-12">
+              <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#B8860B] block mb-4">Bookings & Inquiries</span>
+              <a 
+                href={`https://wa.me/${siteConfig.whatsappNumber}`} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="font-sans text-xl md:text-2xl text-white font-light tracking-wide hover:text-[#B8860B] transition-colors"
+                onClick={() => { plausible("whatsapp_nav_click"); setIsMenuOpen(false); }}
+              >
+                +{siteConfig.whatsappNumber}
+              </a>
+              <a 
+                href="mailto:contact@meenumakeover.com" 
+                className="block font-sans text-sm md:text-base text-white/50 font-light tracking-wide hover:text-white transition-colors mt-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                contact@meenumakeover.com
+              </a>
+            </div>
+
+            <div className="text-center md:text-right mb-12">
+              <span className="font-sans text-[10px] uppercase tracking-[0.3em] text-[#B8860B] block mb-4">Follow Us</span>
+              <div className="flex gap-6 justify-center md:justify-end">
+                <a href={siteConfig.instagram || "#"} target="_blank" rel="noopener noreferrer" className="text-white/60 hover:text-[#B8860B] hover:-translate-y-1 transition-all duration-300">
+                  <Instagram size={24} strokeWidth={1.5} />
+                </a>
+              </div>
+            </div>
+
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hi%20Meenu,%20I%27m%20interested%20in%20a%20luxury%20bridal%20consultation`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => { plausible("whatsapp_nav_click"); setIsMenuOpen(false); }}
+              className="inline-flex items-center justify-center bg-[#B8860B] text-white font-sans text-[11px] uppercase tracking-[0.2em] font-medium px-10 py-5 rounded-sm hover:bg-[#96700A] transition-all duration-300 hover:shadow-[0_10px_30px_rgba(184,134,11,0.2)]"
             >
-              <H3 className="text-[#f5efe6] tracking-widest hover:text-[#d4a574] transition-colors">{link.name}</H3>
-            </Link>
-          ))}
-        </nav>
+              Reserve Experience
+            </a>
+          </div>
 
-        <a
-          href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hi%20Meenu,%20I%27m%20interested%20in%20a%20bridal%20consultation`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={closeMenu}
-          className={cn(TYPE_TOKENS.button, "mt-6 px-8 py-4 border border-[#b8893e] text-[#d4a574] rounded-full hover:bg-[#b8893e] hover:text-[#2e1e12] transition-colors")}
-        >
-          Book Consultation
-        </a>
+        </div>
       </div>
     </>
   );

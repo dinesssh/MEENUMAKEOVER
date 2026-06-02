@@ -2,43 +2,65 @@
 
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import Image from "next/image";
-import { Display, Eyebrow, BodyLg, Body, Highlight, H4 } from "@/components/ui/Typography";
-import { TYPE_TOKENS } from "@/lib/typography";
+import { Display, Eyebrow, BodyLg, Highlight } from "@/components/ui/Typography";
 import { MOTION, setupReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const trustItems = [
-  { value: "500", suffix: "+", label: "Happy Brides" },
-  { value: "8", suffix: "+", label: "Years" },
-  { value: "100", suffix: "%", label: "Satisfaction" },
+  { value: "750", suffix: "+", label: "HAPPY BRIDES" },
+  { value: "10", suffix: "+", label: "YEARS EXPERIENCE" },
+  { value: "4.9", suffix: "★", label: "CLIENT RATING" },
+  { value: "100", suffix: "%", label: "PREMIUM PRODUCTS" },
 ];
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const leftRef    = useRef<HTMLDivElement>(null);
   const rightRef   = useRef<HTMLDivElement>(null);
+  const bgOverlayRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     const mm = setupReducedMotion();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const tl = gsap.timeline({ delay: 0.9 });
+      const tl = gsap.timeline({ delay: 0.8 });
+
+      // Image reveal
+      if (rightRef.current) {
+        gsap.fromTo(
+          rightRef.current,
+          { clipPath: "inset(100% 0 0 0)", scale: 1.05 },
+          { clipPath: "inset(0% 0 0 0)", scale: 1, duration: 1.5, ease: "power4.inOut" }
+        );
+      }
+
+      // Mobile background overlay fade
+      if (bgOverlayRef.current) {
+        gsap.fromTo(bgOverlayRef.current, { opacity: 0 }, { opacity: 0.6, duration: 2, ease: "power2.out" });
+      }
 
       if (leftRef.current) {
         tl.fromTo(
           Array.from(leftRef.current.children),
-          { y: 28, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.85, stagger: 0.11, ease: MOTION.easing.out }
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.9, stagger: 0.12, ease: "power3.out" }
         );
       }
-      tl.fromTo(
-        rightRef.current,
-        { opacity: 0, x: 36, scale: 0.97 },
-        { opacity: 1, x: 0, scale: 1, duration: 1.3, ease: MOTION.easing.out },
-        "-=0.75"
-      );
+      
+      // Parallax effect on scroll
+      gsap.to(rightRef.current, {
+        y: "15%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        }
+      });
     });
 
     mm.add("(prefers-reduced-motion: reduce)", () => {
@@ -51,12 +73,9 @@ export default function Hero() {
           { opacity: 1, duration: MOTION.duration.base, stagger: MOTION.stagger.tight }
         );
       }
-      tl.fromTo(
-        rightRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: MOTION.duration.base },
-        "-=0.2"
-      );
+      if (rightRef.current) {
+        gsap.fromTo(rightRef.current, { opacity: 0 }, { opacity: 1, duration: 1 });
+      }
     });
 
     // Count up animation for stats
@@ -68,12 +87,14 @@ export default function Hero() {
           { textContent: 0 }, 
           {
             textContent: target,
-            duration: 1.5,
+            duration: 2,
             ease: "power2.out",
             snap: { textContent: target % 1 === 0 ? 1 : 0.1 },
-            scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+            scrollTrigger: { trigger: sectionRef.current, start: "top 80%" },
           }
         );
+      } else {
+        stat.textContent = stat.dataset.target || "";
       }
     });
 
@@ -84,64 +105,67 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      /* Fill viewport minus 80px navbar on desktop, 64px on mobile */
-      className="relative w-full flex items-center bg-gradient-to-br from-[#f5efe6] via-[#f5efe6] to-[#ede4d3] overflow-hidden"
-      style={{ minHeight: "calc(100vh - 80px)", paddingTop: 80 }}
+      className="relative w-full flex items-center bg-[#111111] overflow-hidden"
+      style={{ minHeight: "100vh", paddingTop: 80 }}
     >
-      {/* Ambient glow */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-0 right-0 w-[55%] h-full opacity-50"
-        style={{
-          background:
-            "radial-gradient(ellipse at 85% 25%, rgba(184,137,62,0.12) 0%, transparent 55%)",
-        }}
-      />
+      {/* ═══════════════ BACKGROUND IMAGE (MOBILE ONLY) ═══════════════ */}
+      <div className="absolute inset-0 lg:hidden pointer-events-none z-0">
+        <Image
+          src="/hero-bride.png"
+          alt="Meenu Makeover Bridal Model"
+          fill
+          priority
+          className="object-cover object-top opacity-50"
+        />
+        <div ref={bgOverlayRef} className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/80 to-transparent" />
+      </div>
 
-      {/* ── Grid — same container as Navbar ── */}
-      <div className="section-container w-full py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-20 items-center">
+      {/* ── Grid ── */}
+      <div className="section-container relative z-10 w-full py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-center h-full">
 
         {/* ═══════════════ LEFT COLUMN ═══════════════ */}
-        <div ref={leftRef} className="flex flex-col pb-28 lg:pb-0">
+        <div ref={leftRef} className="flex flex-col pb-20 lg:pb-0 pt-32 lg:pt-0">
 
           {/* 1 · Eyebrow label */}
-          <div className="flex items-center gap-4 mb-6">
-            <span className="block h-px w-10 bg-[#b8893e] flex-shrink-0" />
-            <Eyebrow className="text-[#b8893e] tracking-[0.4em] font-semibold">
-              Meenu Makeover
+          <div className="flex items-center gap-4 mb-8">
+            <span className="block h-[1px] w-12 bg-[#D4AF37] flex-shrink-0 opacity-80" />
+            <Eyebrow className="text-[#D4AF37] tracking-[0.4em] font-medium text-[10px] sm:text-[11px]">
+              10+ YEARS OF BRIDAL EXCELLENCE
             </Eyebrow>
           </div>
 
           {/* 2 · Headline */}
-          <Display className="text-[#2e1e12] mb-8 font-heading text-[56px] lg:text-[110px] leading-[0.9] tracking-tight">
-            Crafting
+          <Display className="text-white mb-8 leading-[1.05] tracking-tight">
+            Luxury Bridal
             <br />
-            <Highlight>Timeless</Highlight>
+            <Highlight className="text-[#D4AF37]">Artistry</Highlight>
             <br />
-            Bridal Beauty.
+            by Meenu.
           </Display>
 
           {/* 3 · Supporting copy */}
-          <div className="border-l border-[#b8893e]/30 pl-6 mb-12 max-w-lg">
-            <p className="font-heading text-2xl lg:text-[28px] text-[#2e1e12]/80 italic mb-4 leading-snug">
-              For the most important day of your life.
+          <div className="border-l border-[#D4AF37]/30 pl-6 mb-12 max-w-[420px]">
+            <p className="font-heading text-xl lg:text-[24px] text-white/90 italic mb-3 leading-snug">
+              750+ Brides Styled Across Tamil Nadu.
             </p>
-            <p className="font-sans text-base text-[#2e1e12]/60 leading-relaxed max-w-md">
-              Premium bridal makeup, HD styling, and luxury beauty experiences
-              tailored for the modern Tamil bride.
+            <p className="font-sans text-[15px] lg:text-[16px] text-white/70 leading-relaxed font-light">
+              Experience the pinnacle of bridal styling with personalized luxury care, designed exclusively for the modern bride in Madurai.
             </p>
           </div>
 
-          {/* 5 · CTA buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-10">
+          {/* 4 · CTA buttons */}
+          <div className="flex flex-col sm:flex-row gap-5 mb-14">
             <a
               href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hi%20Meenu,%20I%27m%20interested%20in%20booking%20a%20bridal%20consultation`}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary group"
+              className="group relative overflow-hidden bg-[#D4AF37] text-white font-sans font-medium text-[12px] uppercase tracking-[0.2em] px-8 py-4 rounded-sm flex items-center justify-center transition-transform hover:scale-[1.02]"
             >
-              Book Consultation
-              <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
+              <span className="relative z-10 flex items-center">
+                Book Consultation
+                <ArrowRight size={14} className="ml-3 group-hover:translate-x-1 transition-transform" />
+              </span>
+              <div className="absolute inset-0 bg-white/20 translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
             </a>
 
             <a
@@ -150,21 +174,24 @@ export default function Hero() {
                 e.preventDefault();
                 document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="btn-outline"
+              className="group relative border border-[#D4AF37]/50 text-white font-sans font-medium text-[12px] uppercase tracking-[0.2em] px-8 py-4 rounded-sm flex items-center justify-center overflow-hidden"
             >
-              View Gallery
+              <span className="relative z-10 transition-colors group-hover:text-[#111111]">View Gallery</span>
+              <div className="absolute inset-0 bg-[#D4AF37] translate-y-[100%] group-hover:translate-y-0 transition-transform duration-300 ease-out" />
             </a>
           </div>
 
-          {/* 6 · Trust indicators */}
-          <div className="pt-7 border-t border-[#F0E6D3] grid grid-cols-2 sm:grid-cols-3 gap-y-5 gap-x-6">
-            {trustItems.map((item) => (
-              <div key={item.label} className="flex flex-col gap-2">
-                <div className="gold-number text-[48px] leading-none tabular-nums">
-                  <span className="stat-number" data-target={item.value}>{item.value}</span>
-                  <span>{item.suffix}</span>
+          {/* 5 · Trust indicators - Premium Cards */}
+          <div className="grid grid-cols-2 gap-4 lg:gap-5">
+            {trustItems.map((item, idx) => (
+              <div key={item.label} className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-sm p-4 lg:p-5 flex flex-col justify-center transition-colors hover:bg-white/10 hover:border-[#D4AF37]/30">
+                <div className="flex items-baseline gap-1 mb-1">
+                  <span className="font-sans font-medium text-2xl lg:text-3xl text-[#D4AF37] tabular-nums stat-number" data-target={item.value === "All" ? 0 : item.value}>
+                    {item.value}
+                  </span>
+                  <span className="font-sans font-medium text-lg lg:text-xl text-[#D4AF37]">{item.suffix}</span>
                 </div>
-                <span className="font-sans text-[12px] font-semibold uppercase tracking-[3px] text-[#777]">
+                <span className="font-sans text-[10px] font-medium uppercase tracking-[0.15em] text-white/60">
                   {item.label}
                 </span>
               </div>
@@ -173,22 +200,19 @@ export default function Hero() {
 
         </div>
 
-        {/* ═══════════════ RIGHT COLUMN ═══════════════ */}
-        <div
-          ref={rightRef}
-          className="relative w-full self-stretch flex items-center justify-center lg:justify-end min-h-[420px] md:min-h-[520px]"
-        >
-          <div className="absolute inset-0 rounded-[60px_60px_16px_16px] overflow-hidden border border-white/50 shadow-[0_40px_80px_rgba(139,107,74,0.14)] group">
+        {/* ═══════════════ RIGHT COLUMN (DESKTOP) ═══════════════ */}
+        <div className="hidden lg:flex relative w-full h-[85vh] items-center justify-end z-10">
+          <div ref={rightRef} className="relative w-[95%] h-[90%] rounded-sm overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
             <Image
-              src="/hero-studio.webp"
-              alt="Luxury Bridal Makeup Products"
+              src="/hero-bride.png"
+              alt="Luxury Bridal Styling"
               fill
               priority
-              fetchPriority="high"
-              className="object-cover object-center transition-transform duration-[4s] ease-out group-hover:scale-[1.04]"
-              sizes="(max-width: 1024px) 100vw, 45vw"
+              className="object-cover object-center"
+              sizes="45vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#ede4d3]/20 via-transparent to-transparent pointer-events-none" />
+            {/* Inner glow/shadow */}
+            <div className="absolute inset-0 border border-white/10 rounded-sm pointer-events-none" />
           </div>
         </div>
 

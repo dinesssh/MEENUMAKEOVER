@@ -6,43 +6,74 @@ export interface FeaturedPackage {
   price: string;
   features: string[];
   linkTarget: string;
+  buttonText: string;
+  isFeatured?: boolean;
 }
 
 export const featuredPackages: FeaturedPackage[] = [
   {
-    id: "bridal-luxury",
+    id: "hd-bridal",
     category: "BRIDAL",
-    badge: "Most Popular",
-    title: "The Royal Radiance",
-    price: "₹14,999",
-    features: ["Airbrush HD Application", "Bridal Trial Session", "Premium Mink Lashes"],
+    badge: "MOST BOOKED",
+    title: "HD Bridal Experience",
+    price: "₹12,999",
+    features: [
+      "HD Makeup Application",
+      "Premium Skin Preparation",
+      "Bridal Hairstyling",
+      "Saree Draping",
+      "Camera Ready Finish"
+    ],
     linkTarget: "#booking",
+    buttonText: "BOOK HD MAKEUP",
   },
   {
-    id: "bridal-elite",
+    id: "airbrush-luxury",
     category: "BRIDAL",
-    badge: "Luxury Choice",
-    title: "The Celebrity Bride",
-    price: "Custom Pricing",
-    features: ["Meenu Signature Look", "Multiple Outfit Changes", "Full Day Artist Assistance"],
+    badge: "PREMIUM CHOICE",
+    title: "Airbrush Luxury Bridal",
+    price: "₹19,999",
+    features: [
+      "Airbrush Makeup",
+      "Ultra-Light Finish",
+      "Premium International Products",
+      "Long Lasting Wear",
+      "Flawless Photography Look"
+    ],
     linkTarget: "#booking",
+    buttonText: "BOOK AIRBRUSH MAKEUP",
+    isFeatured: true,
   },
   {
-    id: "salon-bestseller",
+    id: "keratin-smooth",
     category: "SALON",
-    badge: "Best Value",
-    title: "Signature Glass Hair",
-    price: "₹1,999",
-    features: ["Premium Keratin Smoothing", "Luminous Shine Finish", "Complimentary Scalp Detox"],
+    badge: "BEST SELLER",
+    title: "Keratin & Smoothening",
+    price: "Starting ₹4,500",
+    features: [
+      "Keratin Treatment",
+      "Hair Smoothening",
+      "Frizz Control",
+      "Silky Finish",
+      "Professional Styling"
+    ],
     linkTarget: "#booking",
+    buttonText: "BOOK TREATMENT",
   },
   {
-    id: "salon-combo",
+    id: "hair-spa",
     category: "SALON",
-    badge: "Pre-Bridal",
-    title: "The Golden Glow Spa",
-    price: "₹2,999",
-    features: ["Luxury Hair Spa", "Signature Trim & Styling", "Deep Nourishing Mask"],
+    badge: "SALON FAVORITE",
+    title: "Hair Spa & Scalp Therapy",
+    price: "Starting ₹2,500",
+    features: [
+      "Hair Fall Control",
+      "Dandruff Care",
+      "Hair Strengthening",
+      "Deep Nourishment",
+      "Scalp Rejuvenation"
+    ],
     linkTarget: "#booking",
+    buttonText: "BOOK SPA SESSION",
   },
 ];
