@@ -11,18 +11,15 @@ export default function ConversionElements() {
   const plausible = usePlausible();
 
   useEffect(() => {
-    // Exit intent logic
+    // Show modal after 1 minute
     const hasSeenModal = sessionStorage.getItem("hasSeenExitModal");
     if (!hasSeenModal) {
-      const handleMouseLeave = (e: MouseEvent) => {
-        if (e.clientY <= 0) {
-          setShowExitModal(true);
-          sessionStorage.setItem("hasSeenExitModal", "true");
-          plausible("exit_modal_shown");
-        }
-      };
-      document.addEventListener("mouseleave", handleMouseLeave);
-      return () => document.removeEventListener("mouseleave", handleMouseLeave);
+      const timer = setTimeout(() => {
+        setShowExitModal(true);
+        sessionStorage.setItem("hasSeenExitModal", "true");
+        plausible("exit_modal_shown");
+      }, 60000); // 1 minute in milliseconds
+      return () => clearTimeout(timer);
     }
   }, [plausible]);
 
@@ -63,7 +60,7 @@ export default function ConversionElements() {
             e.preventDefault();
             document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
           }}
-          className="inline-flex items-center gap-2 px-5 py-3 bg-[#2e1e12] border border-[#b8893e]/40 text-[#d4a574] font-accent text-[10px] tracking-[0.2em] uppercase rounded-full shadow-xl hover:bg-[#b8893e] hover:text-[#2e1e12] hover:border-[#b8893e] focus:outline-none focus:ring-2 focus:ring-[#b8893e] transition-all duration-300 whitespace-nowrap"
+          className="inline-flex items-center gap-2 px-5 py-3 bg-[#2e1e12] border border-[#b8893e]/40 text-[#d4a574] font-sans text-[10px] tracking-[0.2em] uppercase rounded-full shadow-xl hover:bg-[#b8893e] hover:text-[#2e1e12] hover:border-[#b8893e] focus:outline-none focus:ring-2 focus:ring-[#b8893e] transition-all duration-300 whitespace-nowrap"
         >
           <CalendarHeart size={15} />
           Book Your Date
@@ -79,7 +76,7 @@ export default function ConversionElements() {
           className="group relative flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-[0_8px_30px_rgba(0,0,0,0.18)] hover:scale-110 hover:shadow-[0_8px_30px_rgba(37,211,102,0.4)] focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:ring-offset-2 transition-all duration-300"
         >
           <MessageCircle size={26} />
-          <span className="absolute right-full mr-3 bg-white text-black text-xs font-accent tracking-widest px-3 py-1.5 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md">
+          <span className="absolute right-full mr-3 bg-white text-black text-xs font-sans tracking-widest px-3 py-1.5 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap shadow-md">
             Chat with us
           </span>
         </a>
@@ -129,13 +126,13 @@ export default function ConversionElements() {
                     setShowExitModal(false);
                     document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="w-full py-4 bg-[#4a2f1c] text-[#f5efe6] font-accent text-xs tracking-[0.22em] uppercase hover:bg-[#2e1e12] transition-colors"
+                  className="w-full py-4 bg-[#4a2f1c] text-[#f5efe6] font-sans text-xs tracking-[0.22em] uppercase hover:bg-[#2e1e12] transition-colors"
                 >
                   Reserve Consultation
                 </a>
                 <button
                   onClick={() => setShowExitModal(false)}
-                  className="w-full py-3 text-[#2e1e12]/40 hover:text-[#2e1e12] font-accent text-xs tracking-widest uppercase transition-colors"
+                  className="w-full py-3 text-[#2e1e12]/40 hover:text-[#2e1e12] font-sans text-xs tracking-widest uppercase transition-colors"
                 >
                   Continue Browsing
                 </button>

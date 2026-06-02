@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { Star, ChevronLeft, ChevronRight } from "lucide-react";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { useState } from "react";
+import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { H2, Eyebrow, Body } from "@/components/ui/Typography";
-import { setupReducedMotion } from "@/lib/motion";
 
 interface Testimonial {
   _id?: string;
@@ -16,165 +13,96 @@ interface Testimonial {
   image?: string;
 }
 
-export default function Testimonials({ reviews = [] }: { reviews?: Testimonial[] }) {
-  const [isReduced, setIsReduced] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsReduced(mediaQuery.matches);
-    const handler = (e: MediaQueryListEvent) => setIsReduced(e.matches);
-    mediaQuery.addEventListener("change", handler);
-    return () => mediaQuery.removeEventListener("change", handler);
-  }, []);
-
-  const handleScroll = (dir: "left" | "right") => {
-    if (!scrollRef.current) return;
-    const amount = window.innerWidth < 768 ? 320 + 24 : 380 + 24;
-    scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
-  };
-
-  const displayReviews = isReduced ? reviews : [...reviews, ...reviews];
-  const sectionRef = useRef<HTMLElement>(null);
-  
-  useGSAP(() => {
-    if (reviews.length === 0) return;
-    const mm = setupReducedMotion();
-
-    mm.add("(prefers-reduced-motion: no-preference)", () => {
-      // Heading Animations
-      gsap.fromTo(".testimonial-eyebrow", 
-        { opacity: 0, y: 16 }, 
-        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", scrollTrigger: { trigger: sectionRef.current, start: "top 80%" } }
-      );
-      gsap.fromTo(".testimonial-heading", 
-        { opacity: 0, y: 20 }, 
-        { opacity: 1, y: 0, duration: 0.5, delay: 0.15, ease: "power2.out", scrollTrigger: { trigger: sectionRef.current, start: "top 80%" } }
-      );
-
-      // Star Intersection Observer
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            gsap.to(entry.target.querySelectorAll('.star-icon'), {
-              opacity: 1,
-              scale: 1,
-              duration: 0.2,
-              stagger: 0.08,
-              ease: "power2.out",
-              overwrite: "auto"
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.3 });
-
-      document.querySelectorAll('.testimonial-card').forEach(card => observer.observe(card));
-      return () => observer.disconnect();
-    });
-
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.set(".testimonial-eyebrow, .testimonial-heading", { opacity: 1, y: 0 });
-    });
-
-    return () => mm.revert();
-  }, { scope: sectionRef });
-
-  if (!reviews || reviews.length === 0) {
-    return (
-      <section id="testimonials" className="py-20 lg:py-32 bg-white text-center border-t border-black/5">
-        <div className="section-container">
-          <Eyebrow className="mb-4">Love Notes</Eyebrow>
-          <H2 className="mb-6">Words From Our Brides</H2>
-          <Body className="italic text-[#2e1e12]/40">
-            Reviews will appear here once added in Sanity Studio.
-          </Body>
-        </div>
-      </section>
-    );
-  }
+function TestimonialCard({ review }: { review: Testimonial }) {
+  const [expanded, setExpanded] = useState(false);
+  const initials = review.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
   return (
-    <section id="testimonials" ref={sectionRef} className="py-20 lg:py-32 bg-white text-black overflow-hidden border-t border-black/5">
-      <div className="section-container mb-14">
-        <div className="text-center">
-          <div className="testimonial-eyebrow opacity-0">
-            <Eyebrow className="mb-4">Love Notes</Eyebrow>
+    <div className="bg-white rounded-[16px] px-[28px] py-[36px] border border-[#F0E6D3] shadow-[0_4px_20px_rgba(0,0,0,0.04)] min-w-[320px] max-w-[380px] shrink-0 hover:-translate-y-[6px] hover:shadow-[0_12px_32px_rgba(0,0,0,0.1)] transition-all duration-[350ms] ease-in-out flex flex-col group relative">
+      
+      {/* Subtle Quote Icon */}
+      <span className="absolute top-4 left-6 text-[80px] text-[#B8860B] opacity-[0.12] font-serif leading-none pointer-events-none">&quot;</span>
+
+      {/* Avatar */}
+      <div 
+        className="w-[56px] h-[56px] rounded-full flex items-center justify-center mx-auto mb-[12px] text-white font-sans font-bold text-[20px] shrink-0"
+        style={{ background: 'linear-gradient(135deg, #B8860B, #D4A843)' }}
+      >
+        {initials}
+      </div>
+
+      {/* Name */}
+      <p className="font-heading font-bold text-[18px] text-[#2C2C2C] text-center">
+        {review.name}
+      </p>
+
+      {/* Service Label */}
+      <p className="font-sans uppercase tracking-[2px] font-semibold text-[10px] text-[#B8860B] text-center mt-[4px]">
+        {review.occasion}
+      </p>
+
+      {/* Star Rating */}
+      <div className="flex gap-[3px] justify-center my-[12px]">
+        {[...Array(5)].map((_, i) => (
+          <Star 
+            key={i} 
+            size={16} 
+            className={cn((review.rating || 5) > i ? "text-[#B8860B] fill-[#B8860B]" : "text-[#E0D5C5] fill-[#E0D5C5]")} 
+          />
+        ))}
+      </div>
+
+      {/* Review Text */}
+      <div className="text-center px-[8px] mt-auto">
+        <p className={cn("font-sans font-normal text-[15px] text-[#4A4A4A] leading-[1.7]", !expanded && "line-clamp-5")}>
+          {review.text}
+        </p>
+        {review.text.length > 150 && ( // Simple heuristic for long text
+          <button 
+            suppressHydrationWarning
+            onClick={() => setExpanded(!expanded)}
+            className="text-[#B8860B] font-sans text-[13px] font-medium mt-2 hover:underline focus:outline-none"
+          >
+            {expanded ? "Read less" : "Read more"}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function Testimonials({ reviews = [] }: { reviews?: Testimonial[] }) {
+  if (!reviews || reviews.length === 0) {
+    return null;
+  }
+
+  // Duplicate the entire set of testimonial cards inside the track
+  const displayReviews = [...reviews, ...reviews];
+
+  return (
+    <section id="testimonials" className="bg-[#FDF8F0] py-[80px] overflow-hidden">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-[48px]">
+        <div className="text-center animate-fade-in-up">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-2 mb-[12px] font-sans text-[12px] tracking-[3px] uppercase font-semibold text-[#B8860B]">
+            <span><span className="gold-number">4.8</span>★ GOOGLE RATING</span>
+            <span className="hidden md:inline">·</span>
+            <span><span className="gold-number">750+</span> HAPPY BRIDES</span>
+            <span className="hidden md:inline">·</span>
+            <span>TRUSTED ACROSS TAMIL NADU</span>
           </div>
-          <div className="testimonial-heading opacity-0">
-            <H2>Words From Our Brides</H2>
-          </div>
+          <h2 className="font-heading font-bold text-[42px] text-[#2C2C2C]">
+            Words From Our Brides
+          </h2>
         </div>
       </div>
 
-      <div className="w-full overflow-hidden relative">
-        <div className={cn("w-full", !isReduced && "marquee-wrapper")}>
-          <div
-            ref={scrollRef}
-            className={cn(
-              "flex gap-6 pb-6 pt-2 px-6",
-              isReduced 
-                ? "overflow-x-auto snap-x snap-mandatory hide-scrollbar md:px-12"
-                : "marquee-track"
-            )}
-          >
-            {displayReviews.map((review, idx) => (
-              <div
-                key={`${review._id || review.name}-${idx}`}
-                className={cn(
-                  "testimonial-card bg-white p-8 lg:p-10 shadow-[0_4px_20px_rgba(184,137,62,0.08)] border border-[#b8893e]/20 rounded-xl flex flex-col min-h-[280px] h-full",
-                  isReduced ? "snap-center shrink-0 w-[82vw] sm:w-[320px]" : "shrink-0 w-[320px] md:w-[380px]"
-                )}
-              >
-                {/* Stars */}
-                <div className="flex gap-1 mb-6 testimonial-stars">
-                  {[...Array(review.rating || 5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      size={18} 
-                      className={cn("text-[#b8893e] fill-[#b8893e] star-icon", !isReduced && "opacity-0 scale-90")} 
-                    />
-                  ))}
-                </div>
-
-                {/* Quote */}
-                <div className="relative flex-grow flex flex-col">
-                  <span className="absolute -top-6 -left-2 text-7xl text-[#b8893e] opacity-30 font-serif leading-none">&quot;</span>
-                  <p className="font-heading text-[22px] leading-relaxed italic text-[#2e1e12] relative z-10 mb-6">
-                    {review.text}
-                  </p>
-                </div>
-
-                {/* Divider & Author */}
-                <div className="mt-auto pt-6 border-t border-[#b8893e]/30">
-                  <p className="font-heading font-medium text-[20px] text-[#b8893e]">{review.name}</p>
-                  <p className="font-sans text-[11px] uppercase tracking-[0.15em] font-semibold text-[#2e1e12]/50 mt-1">{review.occasion}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+      {/* Infinite Carousel */}
+      <div className="w-full testimonial-carousel animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+        <div className="testimonial-track py-4">
+          {displayReviews.map((review, idx) => (
+            <TestimonialCard key={`${review._id || review.name}-${idx}`} review={review} />
+          ))}
         </div>
-
-        {/* Manual navigation for reduced motion */}
-        {isReduced && reviews.length > 1 && (
-          <div className="flex justify-center gap-4 mt-8">
-            <button
-              onClick={() => handleScroll('left')}
-              aria-label="Previous testimonial"
-              className="p-3 rounded-full border border-[#b8893e]/30 bg-white text-[#b8893e] hover:bg-[#b8893e] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#b8893e]"
-            >
-              <ChevronLeft size={24} />
-            </button>
-            <button
-              onClick={() => handleScroll('right')}
-              aria-label="Next testimonial"
-              className="p-3 rounded-full border border-[#b8893e]/30 bg-white text-[#b8893e] hover:bg-[#b8893e] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#b8893e]"
-            >
-              <ChevronRight size={24} />
-            </button>
-          </div>
-        )}
       </div>
     </section>
   );

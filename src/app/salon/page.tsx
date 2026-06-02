@@ -1,47 +1,63 @@
 import { siteConfig } from "@/config/site";
 import React from "react";
 
-// Helper component for category sections
-function MenuSection({ title, subtitle, items }: { title: string; subtitle?: string; items: { name: string; desc?: string; regular: string; member: string }[] }) {
-  // We use Option A (Title Case Cormorant) for H2s as recommended in the plan
-  const formattedTitle = title.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-
+// Helper function to colorize pipe separators
+function formatPrice(priceStr: string) {
+  if (!priceStr.includes('|')) return priceStr;
+  const parts = priceStr.split('|');
   return (
-    <div className="mb-16">
-      <div className="mb-6 border-b border-black/10 pb-4">
-        <h2 className="font-heading text-5xl lg:text-6xl text-[#2e1e12] leading-tight font-normal">{formattedTitle}</h2>
-        {subtitle && <p className="font-sans text-sm italic text-[#2e1e12]/60 mt-1">{subtitle}</p>}
+    <>
+      {parts.map((part, idx) => (
+        <React.Fragment key={idx}>
+          {part}
+          {idx < parts.length - 1 && <span className="text-[#B8860B]"> | </span>}
+        </React.Fragment>
+      ))}
+    </>
+  );
+}
+
+// Helper component for category sections
+function MenuSection({ title, subtitle, items, index = 0 }: { title: string; subtitle?: string; items: { name: string; desc?: string; regular: string; member: string }[]; index?: number }) {
+  return (
+    <div 
+      className="bg-white rounded-2xl p-6 md:p-8 mb-8 border border-[#F0E6D3] shadow-[0_4px_24px_rgba(0,0,0,0.06)] animate-fade-in-up"
+      style={{ animationDelay: `${index * 0.15}s` }}
+    >
+      <div className="mb-6">
+        <h2 className="font-heading text-[28px] text-[#2C2C2C] font-bold mb-2">{title}</h2>
+        {subtitle && <p className="font-sans text-sm italic text-[#4A4A4A] mt-1">{subtitle}</p>}
       </div>
       
-      <div className="flex flex-col border border-black/5 rounded-sm overflow-hidden">
+      <div className="flex flex-col w-full">
         {/* Table Header (Desktop) */}
-        <div className="hidden md:flex items-center gap-x-8 px-4 py-3 bg-white border-b border-[#b8893e]">
-          <div className="flex-1 font-accent text-xs uppercase tracking-wider text-[#7a5520]">Service</div>
-          <div className="w-32 text-right font-accent text-xs uppercase tracking-wider text-[#7a5520]">Regular</div>
-          <div className="w-32 text-right font-accent text-xs uppercase tracking-wider text-[#7a5520]">Member</div>
+        <div className="hidden md:flex items-center gap-x-8 px-4 py-3 bg-[#FAF6F0] rounded-lg mb-2">
+          <div className="flex-1 font-sans text-[11px] uppercase tracking-[2px] font-semibold text-[#B8860B]">Service</div>
+          <div className="w-32 text-right font-sans text-[11px] uppercase tracking-[2px] font-semibold text-[#B8860B]">Regular</div>
+          <div className="w-32 text-right font-sans text-[11px] uppercase tracking-[2px] font-semibold text-[#B8860B]">Member</div>
         </div>
 
         {/* Items */}
         {items.map((item, i) => (
           <div 
             key={i} 
-            className={`flex flex-col md:flex-row md:items-center gap-2 md:gap-x-8 px-4 py-4 md:py-3 transition-colors hover:bg-[#b8893e]/5 ${i % 2 === 0 ? 'bg-transparent' : 'bg-[#f5efe6]/30'}`}
+            className={`flex flex-col md:flex-row md:items-center gap-2 md:gap-x-8 px-4 py-[14px] transition-colors duration-200 hover:bg-[#FAF6F0] border-b border-[#F0E6D3] last:border-0 ${i % 2 === 0 ? 'bg-white' : 'bg-[#FDFBF8]'}`}
           >
             {/* Service Name & Desc */}
             <div className="flex-1">
-              <h3 className="font-sans text-[#2e1e12] text-base font-medium">{item.name}</h3>
-              {item.desc && <p className="font-sans text-[#2e1e12]/50 text-xs mt-0.5 italic">{item.desc}</p>}
+              <h3 className="font-sans text-[#2C2C2C] text-[15px] font-medium">{item.name}</h3>
+              {item.desc && <p className="font-sans text-[#4A4A4A]/80 text-xs mt-1 italic">{item.desc}</p>}
             </div>
             
-            {/* Pricing (Mobile stacked, Desktop columns) */}
-            <div className="flex md:contents justify-between mt-2 md:mt-0 text-sm md:text-base border-t border-black/5 md:border-none pt-2 md:pt-0">
-              <div className="md:w-32 md:text-right font-serif text-[#2e1e12]/80 tabular-nums">
-                <span className="md:hidden text-xs text-[#7a5520] uppercase tracking-wider block mb-1">Regular</span>
-                {item.regular}
+            {/* Pricing */}
+            <div className="flex md:contents justify-between mt-2 md:mt-0 border-t border-[#F0E6D3] md:border-none pt-2 md:pt-0">
+              <div className="md:w-32 md:text-right gold-number text-[15px]">
+                <span className="md:hidden font-sans font-semibold text-[11px] text-[#B8860B] uppercase tracking-[2px] block mb-1">Regular</span>
+                {formatPrice(item.regular)}
               </div>
-              <div className="md:w-32 md:text-right font-serif text-[#2e1e12] tabular-nums font-medium">
-                <span className="md:hidden text-xs text-[#7a5520] uppercase tracking-wider block mb-1">Member</span>
-                {item.member}
+              <div className="md:w-32 md:text-right gold-number text-[15px]">
+                <span className="md:hidden font-sans font-semibold text-[11px] text-[#B8860B] uppercase tracking-[2px] block mb-1">Member</span>
+                {formatPrice(item.member)}
               </div>
             </div>
           </div>
@@ -77,26 +93,26 @@ export default function SalonPage() {
           <div className="flex flex-col border border-[#b8893e]/20 rounded-sm mb-8">
             <div className="flex justify-between items-center px-6 py-4 border-b border-[#b8893e]/20">
               <span className="font-sans text-white">Hair Smoothening (Any Length)</span>
-              <span className="font-serif text-[#d4a574] text-xl tabular-nums">₹1,999</span>
+              <span className="gold-number text-xl tabular-nums">₹1,999</span>
             </div>
             <div className="flex justify-between items-center px-6 py-4 border-b border-[#b8893e]/20">
               <span className="font-sans text-white">Keratin Treatment (Any Length)</span>
-              <span className="font-serif text-[#d4a574] text-xl tabular-nums">₹3,499</span>
+              <span className="gold-number text-xl tabular-nums">₹3,499</span>
             </div>
             <div className="flex justify-between items-center px-6 py-4 border-b border-[#b8893e]/20">
               <span className="font-sans text-white">Hair Botox (Any Length)</span>
-              <span className="font-serif text-[#d4a574] text-xl tabular-nums">₹4,499</span>
+              <span className="gold-number text-xl tabular-nums">₹4,499</span>
             </div>
             <div className="flex justify-between items-center px-6 py-4">
               <span className="font-sans text-white">Collagen Treatment (Any Length)</span>
-              <span className="font-serif text-[#d4a574] text-xl tabular-nums">₹5,499</span>
+              <span className="gold-number text-xl tabular-nums">₹5,499</span>
             </div>
           </div>
 
           <div className="bg-[#b8893e] text-[#2e1e12] p-6 rounded-md shadow-lg text-center border border-white/20">
-            <h3 className="font-heading text-xl md:text-2xl mb-2">Complete Hair Care Combo @ ₹2,999 Only</h3>
+            <h3 className="font-heading text-xl md:text-2xl mb-2">Complete Hair Care Combo @ <span className="gold-number text-[#2e1e12]">₹2,999</span> Only</h3>
             <p className="font-sans text-sm md:text-base mb-2 font-medium">Scalp Detox Treatment + Deep Nourishing Hair Spa + Hair Cut & Styling</p>
-            <p className="font-sans text-xs opacity-80 mb-5 italic">(Mid-thigh length & longer hair N/A. Worth ₹3,500+)</p>
+            <p className="font-sans text-xs opacity-80 mb-5 italic">(Mid-thigh length & longer hair N/A. Worth <span className="gold-number text-[#2e1e12]">₹3,500+</span>)</p>
             <div className="flex flex-col md:flex-row justify-center items-center gap-2 md:gap-x-8 font-bold text-xs uppercase tracking-wider">
               <span className="flex items-center gap-1.5"><span className="text-white">✓</span> Free Hair Analysis</span>
               <span className="flex items-center gap-1.5"><span className="text-white">✓</span> Free Head Massage</span>
@@ -221,12 +237,12 @@ export default function SalonPage() {
            </div>
         </div>
 
-        <div className="text-center mt-12 border-t border-black/10 pt-12">
+        <div className="text-center mt-12 border-t border-[#F0E6D3] pt-12">
            <a
               href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hello,%20I%20would%20like%20to%20book%20a%20salon%20service.`}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-[#2e1e12] text-white hover:bg-[#b8893e] hover:text-[#2e1e12] px-10 py-4 font-accent text-xs tracking-[0.2em] uppercase transition-all shadow-lg hover:shadow-xl rounded-sm"
+              className="btn-primary"
             >
               Book an Appointment
             </a>

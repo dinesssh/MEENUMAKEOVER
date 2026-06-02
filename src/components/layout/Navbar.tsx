@@ -71,7 +71,7 @@ export default function Navbar() {
             <span className="font-heading text-[#d4a574] text-base md:text-lg tracking-[0.12em] leading-snug">
               Meenu Makeover
             </span>
-            <span className="font-accent text-white/40 text-[8px] md:text-[9px] tracking-[0.25em] uppercase mt-0.5">
+            <span className="font-sans text-white/40 text-[8px] md:text-[9px] tracking-[0.25em] uppercase mt-0.5">
               Luxury Bridal Studio
             </span>
           </div>

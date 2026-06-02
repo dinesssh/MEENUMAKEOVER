@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Bridal Gallery",
-  description: "View our portfolio of stunning Tamil brides, engagement looks, and reception styling.",
+  description: "View our gallery of stunning Tamil brides, engagement looks, and reception styling.",
 };
 
 export default function GalleryPage() {

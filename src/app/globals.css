@@ -1,27 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Brand Colors ── */
-  --color-black:       #0A0A0A;
-  --color-brown:       #4a2f1c;   /* navbar bg, primary CTAs */
-  --color-brown-dark:  #2e1e12;   /* CTA hover */
-
-  /* Gold Scale */
-  --color-gold-light:  #d4a574;   /* accent lines, borders */
-  --color-gold:        #b8893e;   /* primary brand gold */
-  --color-gold-dark:   #8a6428;   /* hover states */
-
-  /* Ivory Scale */
-  --color-ivory:       #f5efe6;   /* main background */
-  --color-ivory-warm:  #ede4d3;   /* cards, alternate sections */
-
-  --color-beige:       #F5EFE6;
-  --color-warm-gray:   #8A8580;
-  --color-text:        #2e1e12;
+  --color-primary-gold: #B8860B;
+  --color-dark-gold: #96700A;
+  --color-dark-text: #2C2C2C;
+  --color-body-text: #4A4A4A;
+  --color-light-bg: #FDF8F0;
+  --color-card-bg: #FFFFFF;
+  --color-border-divider: #F0E6D3;
+  --color-table-alt-row: #FDFBF8;
+  --color-table-header-bg: #FAF6F0;
 
   /* ── Typography ── */
   --font-sans:    var(--font-inter),    ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-heading: var(--font-playfair), ui-serif, Georgia, serif;
 }
 
 /* ── Base ── */
@@ -30,8 +22,8 @@ html {
 }
 
 body {
-  background-color: var(--color-ivory);
-  color: var(--color-text);
+  background-color: var(--color-light-bg);
+  color: var(--color-dark-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -93,7 +85,7 @@ body {
   display: flex;
   gap: 1.5rem;
   width: max-content;
-  animation: marquee-scroll 40s linear infinite;
+  animation: marquee-scroll 50s linear infinite;
   will-change: transform;
 }
 
@@ -104,7 +96,7 @@ body {
 
 @media (max-width: 768px) {
   .marquee-track {
-    animation-duration: 35s;
+    animation-duration: 40s;
   }
 }
 
@@ -117,4 +109,121 @@ body {
     mask-image: none;
     -webkit-mask-image: none;
   }
+}
+
+/* ── Badge Shine Animation ── */
+@keyframes badge-shine {
+  from { transform: translateX(-150%) skewX(-20deg); }
+  to { transform: translateX(250%) skewX(-20deg); }
+}
+
+.badge-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right, transparent, rgba(184, 137, 62, 0.4), transparent);
+  animation: badge-shine 3s infinite;
+}
+
+/* ── Unified Buttons ── */
+.btn-primary {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  padding: 14px 36px;
+  transition: all 0.3s ease;
+  background-color: var(--color-primary-gold);
+  color: #FFFFFF;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-dark-gold);
+  transform: scale(1.02);
+}
+
+.btn-outline {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 8px;
+  padding: 14px 36px;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: var(--color-primary-gold);
+  border: 2px solid var(--color-primary-gold);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-outline:hover {
+  background-color: var(--color-primary-gold);
+  color: #FFFFFF;
+}
+
+/* ── Shared Number Style ── */
+.gold-number {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  color: var(--color-primary-gold);
+}
+
+/* ── Animations ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.hover-card-effect {
+  transition: all 0.3s ease;
+}
+
+.hover-card-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+}
+
+/* ── Testimonials Infinite Auto-Scroll ── */
+@keyframes testimonialScroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.testimonial-track {
+  display: flex;
+  gap: 32px;
+  width: max-content;
+  animation: testimonialScroll 35s linear infinite;
+}
+
+.testimonial-track:hover {
+  animation-play-state: paused;
+}
+
+.testimonial-carousel {
+  overflow: hidden;
+  mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 4%, black 96%, transparent 100%);
 }

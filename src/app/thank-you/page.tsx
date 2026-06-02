@@ -29,7 +29,7 @@ export default function ThankYou() {
         </p>
         <Link 
           href="/" 
-          className="anim-element inline-flex items-center justify-center gap-2 text-sm font-accent tracking-widest uppercase border-b border-black pb-1 hover:text-gold hover:border-gold transition-colors"
+          className="anim-element inline-flex items-center justify-center gap-2 text-sm font-sans tracking-widest uppercase border-b border-black pb-1 hover:text-gold hover:border-gold transition-colors"
         >
           <ArrowLeft size={16} />
           Back to Home

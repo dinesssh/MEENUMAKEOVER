@@ -4,7 +4,6 @@ import About from "@/components/sections/About";
 import FeaturedPackages from "@/components/sections/FeaturedPackages";
 import Gallery from "@/components/sections/Gallery";
 import Testimonials from "@/components/sections/Testimonials";
-import Packages from "@/components/sections/Packages";
 import Scarcity from "@/components/sections/Scarcity";
 import Booking from "@/components/sections/Booking";
 import fs from "fs";
@@ -92,7 +91,6 @@ export default async function Home() {
       <FeaturedPackages />
       <Gallery />
       <Testimonials reviews={testimonials} />
-      <Packages />
       <Scarcity />
       <Booking />
     </main>

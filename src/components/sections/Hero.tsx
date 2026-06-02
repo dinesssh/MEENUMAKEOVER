@@ -11,12 +11,10 @@ import { MOTION, setupReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const trustItems = [
-  { value: "500+",    label: "Brides Styled" },
-  { value: "4.9★",   label: "Client Rating" },
-  { value: "Premium", label: "Products Used" },
-  { value: "Pan TN",  label: "Travel Available" },
+  { value: "500", suffix: "+", label: "Happy Brides" },
+  { value: "8", suffix: "+", label: "Years" },
+  { value: "100", suffix: "%", label: "Satisfaction" },
 ];
-
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const leftRef    = useRef<HTMLDivElement>(null);
@@ -61,6 +59,24 @@ export default function Hero() {
       );
     });
 
+    // Count up animation for stats
+    const stats = gsap.utils.toArray<HTMLElement>('.stat-number');
+    stats.forEach(stat => {
+      const target = parseFloat(stat.dataset.target || "0");
+      if (target > 0) {
+        gsap.fromTo(stat, 
+          { textContent: 0 }, 
+          {
+            textContent: target,
+            duration: 1.5,
+            ease: "power2.out",
+            snap: { textContent: target % 1 === 0 ? 1 : 0.1 },
+            scrollTrigger: { trigger: sectionRef.current, start: "top 75%" },
+          }
+        );
+      }
+    });
+
     return () => mm.revert();
   }, { scope: sectionRef });
 
@@ -89,20 +105,15 @@ export default function Hero() {
         <div ref={leftRef} className="flex flex-col pb-28 lg:pb-0">
 
           {/* 1 · Eyebrow label */}
-          <div className="flex items-center gap-3 mb-5">
-            <span className="block h-px w-8 bg-[#b8893e] flex-shrink-0" />
-            <Eyebrow>
-              Madurai&apos;s Luxury Bridal Studio
+          <div className="flex items-center gap-4 mb-6">
+            <span className="block h-px w-10 bg-[#b8893e] flex-shrink-0" />
+            <Eyebrow className="text-[#b8893e] tracking-[0.4em] font-semibold">
+              Meenu Makeover
             </Eyebrow>
           </div>
 
-          {/* 2 · Brand subtitle */}
-          <Eyebrow className="text-[#b8893e]/70 mb-5 tracking-[0.22em] text-[11px]">
-            Meenu Makeover
-          </Eyebrow>
-
-          {/* 3 · Headline */}
-          <Display className="text-[#2e1e12] mb-7">
+          {/* 2 · Headline */}
+          <Display className="text-[#2e1e12] mb-8 font-heading text-[56px] lg:text-[110px] leading-[0.9] tracking-tight">
             Crafting
             <br />
             <Highlight>Timeless</Highlight>
@@ -110,15 +121,15 @@ export default function Hero() {
             Bridal Beauty.
           </Display>
 
-          {/* 4 · Supporting copy */}
-          <div className="border-l-2 border-[#b8893e]/20 pl-5 mb-10 max-w-md">
-            <BodyLg className="text-[#2e1e12]/75 italic mb-3">
+          {/* 3 · Supporting copy */}
+          <div className="border-l border-[#b8893e]/30 pl-6 mb-12 max-w-lg">
+            <p className="font-heading text-2xl lg:text-[28px] text-[#2e1e12]/80 italic mb-4 leading-snug">
               For the most important day of your life.
-            </BodyLg>
-            <Body className="text-[#2e1e12]/55">
+            </p>
+            <p className="font-sans text-base text-[#2e1e12]/60 leading-relaxed max-w-md">
               Premium bridal makeup, HD styling, and luxury beauty experiences
               tailored for the modern Tamil bride.
-            </Body>
+            </p>
           </div>
 
           {/* 5 · CTA buttons */}
@@ -127,13 +138,10 @@ export default function Hero() {
               href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hi%20Meenu,%20I%27m%20interested%20in%20booking%20a%20bridal%20consultation`}
               target="_blank"
               rel="noopener noreferrer"
-              className={cn(TYPE_TOKENS.button, "group relative inline-flex items-center justify-center gap-2 h-14 px-8 bg-[#4a2f1c] text-[#f5efe6] overflow-hidden shadow-[0_8px_32px_rgba(74,47,28,0.25)] hover:shadow-[0_12px_40px_rgba(74,47,28,0.35)] transition-shadow")}
+              className="btn-primary group"
             >
-              <span className="relative z-10 flex items-center gap-2">
-                Book Consultation
-                <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
-              </span>
-              <span className="absolute inset-0 bg-[#2e1e12] scale-x-0 origin-left group-hover:scale-x-100 transition-transform duration-500 ease-out" />
+              Book Consultation
+              <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform duration-300" />
             </a>
 
             <a
@@ -142,25 +150,27 @@ export default function Hero() {
                 e.preventDefault();
                 document.getElementById("gallery")?.scrollIntoView({ behavior: "smooth" });
               }}
-              className={cn(TYPE_TOKENS.button, "inline-flex items-center justify-center h-14 px-8 border border-[#b8893e]/50 text-[#b8893e] hover:border-[#b8893e] hover:bg-[#b8893e]/8 transition-all duration-300")}
+              className="btn-outline"
             >
-              View Portfolio
+              View Gallery
             </a>
           </div>
 
           {/* 6 · Trust indicators */}
-          <div className="pt-7 border-t border-[#b8893e]/12 grid grid-cols-2 sm:grid-cols-4 gap-y-5 gap-x-6">
+          <div className="pt-7 border-t border-[#F0E6D3] grid grid-cols-2 sm:grid-cols-3 gap-y-5 gap-x-6">
             {trustItems.map((item) => (
-              <div key={item.label}>
-                <H4 className="text-[#2e1e12] mb-1">
-                  {item.value}
-                </H4>
-                <Eyebrow className="text-[#b8893e]/80 text-[9px] tracking-widest">
+              <div key={item.label} className="flex flex-col gap-2">
+                <div className="gold-number text-[48px] leading-none tabular-nums">
+                  <span className="stat-number" data-target={item.value}>{item.value}</span>
+                  <span>{item.suffix}</span>
+                </div>
+                <span className="font-sans text-[12px] font-semibold uppercase tracking-[3px] text-[#777]">
                   {item.label}
-                </Eyebrow>
+                </span>
               </div>
             ))}
           </div>
+
         </div>
 
         {/* ═══════════════ RIGHT COLUMN ═══════════════ */}

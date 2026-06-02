@@ -25,7 +25,7 @@ const inputClass =
   "w-full h-12 px-0 bg-transparent border-b border-[#2e1e12]/15 font-sans text-sm text-[#2e1e12] placeholder:text-[#2e1e12]/40 focus:outline-none focus:border-[#b8893e] transition-colors";
 
 const labelClass =
-  "block font-accent text-[9px] tracking-[0.2em] uppercase text-[#7a5520]/80 mb-1.5";
+  "block font-sans text-[9px] tracking-[0.2em] uppercase text-[#7a5520]/80 mb-1.5";
 
 export default function Booking() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +54,7 @@ export default function Booking() {
   };
 
   return (
-    <section id="booking" className="pt-20 lg:pt-32 pb-32 lg:pb-44 bg-white text-black border-t border-black/5">
+    <section id="booking" className="pt-20 lg:pt-24 pb-24 lg:pb-32 bg-white text-black border-t border-black/5">
       <div className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24">
 
@@ -80,7 +80,7 @@ export default function Booking() {
                 href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hi%20Meenu,%20I%27m%20interested%20in%20booking%20a%20consultation`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-3 px-7 py-3.5 bg-[#25D366] text-white font-accent text-xs tracking-[0.15em] uppercase hover:bg-[#20bd5a] transition-colors shadow-sm hover:shadow-md rounded-sm"
+                className="inline-flex items-center justify-center gap-3 px-7 py-3.5 bg-[#25D366] text-white font-sans text-xs tracking-[0.15em] uppercase hover:bg-[#20bd5a] transition-colors shadow-sm hover:shadow-md rounded-sm"
               >
                 <MessageCircle size={18} />
                 Message on WhatsApp
@@ -165,7 +165,7 @@ export default function Booking() {
                   suppressHydrationWarning
                   type="submit"
                   disabled={isSubmitting}
-                  className="inline-flex items-center justify-center gap-2 h-12 px-9 bg-[#4a2f1c] text-[#f5efe6] font-accent text-xs tracking-[0.22em] uppercase hover:bg-[#2e1e12] transition-colors disabled:opacity-60 rounded-sm"
+                  className="inline-flex items-center justify-center gap-2 h-12 px-9 bg-[#4a2f1c] text-[#f5efe6] font-sans text-xs tracking-[0.22em] uppercase hover:bg-[#2e1e12] transition-colors disabled:opacity-60 rounded-sm"
                 >
                   {isSubmitting ? "Sending…" : "Request Consultation"}
                   {!isSubmitting && <Send size={14} />}

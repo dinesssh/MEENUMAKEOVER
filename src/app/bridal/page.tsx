@@ -35,46 +35,47 @@ export default function BridalPage() {
           <h3 className="font-heading text-2xl md:text-3xl text-[#d4a574] mb-3">Complimentary Gift Included</h3>
           <p className="font-sans text-white/80 text-base md:text-lg">
             All packages come with one complimentary gift of your choice:<br/>
-            <strong className="text-white font-medium">Jewellery Set, 2 Saree Draping & Any Service</strong>
+            <strong className="text-white font-medium">Jewellery Set, <span className="gold-number">2</span> Saree Draping & Any Service</strong>
           </p>
-          <a href="#booking" className="mt-4 inline-block bg-[#b8893e] text-[#2e1e12] font-accent text-[10px] uppercase tracking-widest px-4 py-1.5 font-bold shadow-sm hover:bg-[#d4a574] hover:scale-105 transition-all">
+          <a href="#booking" className="mt-4 inline-block bg-[#b8893e] text-[#2e1e12] font-sans text-[10px] uppercase tracking-widest px-4 py-1.5 font-bold shadow-sm hover:bg-[#d4a574] hover:scale-105 transition-all">
             Limited Period Offer — Don&apos;t Miss Out!
           </a>
         </div>
 
         {/* Pricing Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-stretch">
-          {bridalPackages.map((pkg) => (
+          {bridalPackages.map((pkg, i) => (
             <div 
               key={pkg.name}
-              className={`relative flex flex-col h-full bg-white p-8 border overflow-visible ${
+              className={`relative flex flex-col h-full bg-white px-8 py-10 border rounded-2xl overflow-visible animate-fade-in-up hover-card-effect ${
                 pkg.popular 
-                  ? "border-2 border-[#b8893e] shadow-xl md:-translate-y-2" 
-                  : "border-black/5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all"
+                  ? "border-2 border-[#B8860B] shadow-[0_8px_32px_rgba(184,134,11,0.15)] md:-translate-y-2" 
+                  : "border-[#F0E6D3] shadow-[0_4px_24px_rgba(0,0,0,0.06)]"
               }`}
+              style={{ animationDelay: `${i * 0.1}s` }}
             >
               {pkg.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#b8893e] text-[#2e1e12] font-accent text-[9px] font-bold uppercase tracking-[0.2em] py-1.5 px-4 shadow-sm whitespace-nowrap rounded-sm">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#B8860B] text-white font-sans text-[11px] font-bold uppercase tracking-[2px] py-1.5 px-5 shadow-sm whitespace-nowrap rounded-[20px]">
                   Most Popular
                 </div>
               )}
               
-              <h3 className="font-heading text-2xl text-[#2e1e12] mb-3 text-center">{pkg.name}</h3>
-              <p className="font-accent text-3xl text-[#b8893e] text-center mb-6">{pkg.price}</p>
+              <h3 className="font-heading text-2xl font-bold text-[#2C2C2C] mb-3 text-center">{pkg.name}</h3>
+              <p className="font-sans text-[36px] font-bold text-[#B8860B] text-center mb-6">{pkg.price}</p>
               
-              <div className="w-16 h-px bg-black/10 mx-auto mb-6" />
+              <div className="w-16 h-px bg-[#F0E6D3] mx-auto mb-6" />
 
               <ul className="space-y-3 mb-10 flex-grow">
-                <li className="flex items-start gap-3 text-sm font-sans text-[#2e1e12]/75">
-                  <Check size={16} className="text-[#b8893e] shrink-0 mt-0.5" />
+                <li className="flex items-start gap-3 text-[15px] font-sans text-[#555]">
+                  <Check size={18} strokeWidth={3} className="text-[#B8860B] shrink-0 mt-0.5" />
                   <span>Flawless Base & Finishing</span>
                 </li>
-                <li className="flex items-start gap-3 text-sm font-sans text-[#2e1e12]/75">
-                  <Check size={16} className="text-[#b8893e] shrink-0 mt-0.5" />
+                <li className="flex items-start gap-3 text-[15px] font-sans text-[#555]">
+                  <Check size={18} strokeWidth={3} className="text-[#B8860B] shrink-0 mt-0.5" />
                   <span>Premium Products</span>
                 </li>
-                <li className="flex items-start gap-3 text-sm font-sans text-[#2e1e12]/75">
-                  <Check size={16} className="text-[#b8893e] shrink-0 mt-0.5" />
+                <li className="flex items-start gap-3 text-[15px] font-sans text-[#555]">
+                  <Check size={18} strokeWidth={3} className="text-[#B8860B] shrink-0 mt-0.5" />
                   <span>Eligible for Complimentary Gift</span>
                 </li>
               </ul>
@@ -83,10 +84,8 @@ export default function BridalPage() {
                 href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hello,%20I%20would%20like%20to%20enquire%20about%20the%20${pkg.name}%20(${pkg.price})%20Bridal%20Package.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`w-full text-center h-12 flex items-center justify-center font-accent text-xs tracking-[0.2em] uppercase transition-colors border-2 rounded-sm mt-auto ${
-                  pkg.popular
-                    ? "bg-[#b8893e] text-[#2e1e12] border-[#b8893e] hover:bg-[#d4a574] hover:border-[#d4a574]"
-                    : "bg-transparent text-[#2e1e12] border-[#b8893e] hover:bg-[#b8893e] hover:text-white"
+                className={`mt-auto ${
+                  pkg.popular ? "btn-primary w-full" : "btn-outline w-full"
                 }`}
               >
                 Book Now

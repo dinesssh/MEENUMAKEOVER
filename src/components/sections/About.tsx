@@ -56,7 +56,7 @@ export default function About() {
   }, { scope: sectionRef });
 
   return (
-    <section id="about" ref={sectionRef} className="py-20 lg:py-32 bg-[#f5efe6] text-black overflow-hidden">
+    <section id="about" ref={sectionRef} className="py-20 lg:py-24 bg-[#f5efe6] text-black overflow-hidden">
       <div className="section-container">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-24 items-center">
 
@@ -77,34 +77,30 @@ export default function About() {
 
           {/* Right: Story */}
           <div ref={textRef} className="max-w-xl">
-            <Eyebrow className="mb-4">The Artist Behind The Brush</Eyebrow>
+            <Eyebrow className="mb-4">The Artist Behind The Vision</Eyebrow>
 
             <H2 className="mb-8">
-              Crafting <Highlight>Timeless</Highlight> Memories
+              Elevating <Highlight>Your Story</Highlight> with Luxury
             </H2>
 
-            <div className="space-y-5 mb-10">
+            <div className="space-y-6 mb-12">
               <Body>
-                Meenu has been transforming brides into their most beautiful selves for nearly a decade.
-                What started as a deep passion for artistry has evolved into Madurai&apos;s most trusted
-                luxury bridal destination.
+                With over eight years of dedicated bridal expertise, Meenu has established Madurai’s most exclusive luxury makeup studio. We don't just apply makeup; we curate an intimate, personalized bridal experience that honors your unique vision and deep-rooted traditions.
               </Body>
               <Body>
-                We believe that bridal makeup shouldn&apos;t mask who you are—it should elevate your natural
-                beauty, honoring both modern aesthetics and deep-rooted Tamil traditions. Every stroke,
-                every shade is chosen to reflect your personal story on your biggest day.
+                Every stroke and shade is intentionally chosen using only premium international products. Our philosophy is simple: bridal beauty should never mask who you are. It should be a flawless, luminous extension of your natural elegance, designed to remain immaculate from your first step down the aisle to the final portrait.
               </Body>
             </div>
 
             {/* Trust Stats */}
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-[#b8893e]/12">
               {[
-                { value: "500+", label: "Brides" },
-                { value: "8",    label: "Years Exp." },
-                { value: "4.9★", label: "Google" },
+                { value: "500+", label: "Happy Brides" },
+                { value: "8+",    label: "Years Expertise" },
+                { value: "100%", label: "Premium Products" },
               ].map((s) => (
                 <div key={s.label}>
-                  <H4 className="text-[#b8893e] mb-1">{s.value}</H4>
+                  <div className="gold-number text-2xl mb-1">{s.value}</div>
                   <Eyebrow className="text-[#2e1e12]/50 text-[9px] tracking-widest">{s.label}</Eyebrow>
                 </div>
               ))}

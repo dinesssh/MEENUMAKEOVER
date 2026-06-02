@@ -5,21 +5,14 @@ import Image from "next/image";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { X } from "lucide-react";
 import { usePlausible } from "next-plausible";
-import { H2, H3, Eyebrow, Body } from "@/components/ui/Typography";
-import { TYPE_TOKENS } from "@/lib/typography";
+import { H2, Eyebrow, Body } from "@/components/ui/Typography";
 import { MOTION, setupReducedMotion } from "@/lib/motion";
-import { cn } from "@/lib/utils";
-
-type Category = "All" | "Bridal" | "Engagement" | "Reception" | "Microblading" | "Mehendi";
-
-const categories: Category[] = ["All", "Bridal", "Engagement", "Reception", "Mehendi", "Microblading"];
 
 export interface GalleryItem {
   _id: string;
   title: string;
   category: string;
   image: string;
-  aspectRatio?: string;
 }
 
 interface GalleryClientProps {
@@ -27,16 +20,11 @@ interface GalleryClientProps {
 }
 
 export default function GalleryClient({ items }: GalleryClientProps) {
-  const [activeCategory, setActiveCategory] = useState<Category>("All");
   const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
   const plausible = usePlausible();
   
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-
-  const filteredItems = activeCategory === "All" 
-    ? items 
-    : items.filter((item) => item.category === activeCategory);
 
   useGSAP(() => {
     const mm = setupReducedMotion();
@@ -44,16 +32,16 @@ export default function GalleryClient({ items }: GalleryClientProps) {
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       gsap.fromTo(
         gridRef.current?.children as HTMLCollection,
-        { y: 30, opacity: 0 },
+        { y: 40, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          duration: 0.6,
-          stagger: 0.1,
+          duration: 0.8,
+          stagger: 0.15,
           ease: "power2.out",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 80%",
+            start: "top 75%",
             toggleActions: "play none none none"
           },
         }
@@ -66,7 +54,7 @@ export default function GalleryClient({ items }: GalleryClientProps) {
         { opacity: 0 },
         {
           opacity: 1,
-          duration: 0.2,
+          duration: 0.4,
           stagger: 0.1,
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -80,34 +68,11 @@ export default function GalleryClient({ items }: GalleryClientProps) {
     return () => mm.revert();
   }, { scope: sectionRef });
 
-  const handleCategoryChange = (cat: Category) => {
-    if (cat === activeCategory) return;
-    
-    const mm = gsap.matchMedia();
-    const isReduced = mm.contexts.some(c => c.conditions?.reduce);
-    
-    gsap.to(gridRef.current?.children as HTMLCollection, {
-      opacity: 0,
-      y: isReduced ? 0 : 10,
-      duration: 0.2,
-      onComplete: () => {
-        setActiveCategory(cat);
-        setTimeout(() => {
-          gsap.fromTo(
-            gridRef.current?.children as HTMLCollection,
-            { opacity: 0, y: isReduced ? 0 : 10 },
-            { opacity: 1, y: 0, duration: 0.2, stagger: isReduced ? 0 : 0.05, ease: "power2.out" }
-          );
-        }, 50);
-      }
-    });
-  };
-
   if (!items || items.length === 0) {
     return (
-      <section id="gallery" className="py-24 md:py-32 bg-white text-black text-center">
+      <section id="gallery" className="py-24 md:py-32 bg-white text-black text-center border-y border-black/5">
         <div className="container mx-auto px-6">
-          <Eyebrow className="mb-4">Portfolio</Eyebrow>
+          <Eyebrow className="mb-4">Bridal Gallery</Eyebrow>
           <H2 className="mb-10">Our Brides</H2>
           <Body className="italic">Gallery coming soon.</Body>
         </div>
@@ -116,40 +81,26 @@ export default function GalleryClient({ items }: GalleryClientProps) {
   }
 
   return (
-    <section id="gallery" ref={sectionRef} className="py-24 md:py-32 bg-white text-black">
-      <div className="container mx-auto px-6 md:px-12">
+    <section id="gallery" ref={sectionRef} className="py-24 md:py-32 bg-white text-black border-y border-black/5">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-12">
         
-        <div className="text-center mb-16">
-          <Eyebrow className="mb-4">Portfolio</Eyebrow>
-          <H2 className="mb-10">Our Brides</H2>
-          
-          <div className="flex flex-wrap justify-center gap-4 md:gap-8">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                suppressHydrationWarning
-                onClick={() => handleCategoryChange(cat)}
-                className={cn(TYPE_TOKENS.navLink, `relative pb-1 transition-colors duration-250 ${
-                  activeCategory === cat 
-                    ? "text-[#2e1e12] after:w-full" 
-                    : "text-[#2e1e12]/50 hover:text-[#2e1e12] opacity-60 hover:opacity-100 after:w-0"
-                } after:content-[''] after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#b8893e] after:transition-all after:duration-[250ms] after:ease-out`)}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+        <div className="text-center mb-16 lg:mb-24">
+          <Eyebrow className="mb-4">The Editorial Showcase</Eyebrow>
+          <H2 className="mb-6">Bridal Gallery</H2>
+          <Body className="max-w-2xl mx-auto text-[#2e1e12]/60">
+            A curated collection of our most stunning bridal transformations. Every look is an elegant, timeless expression of beauty.
+          </Body>
         </div>
 
-        <div ref={gridRef} className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-          {filteredItems.map((item) => (
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+          {items.map((item) => (
             <div 
               key={item._id}
-              suppressHydrationWarning
               role="button"
               tabIndex={0}
               aria-label={`View ${item.title}`}
-              className="group block w-full relative overflow-hidden bg-ivory cursor-pointer break-inside-avoid rounded-md shadow-sm motion-safe:hover:shadow-[0_8px_30px_rgba(184,137,62,0.15)] focus:outline-none focus:ring-2 focus:ring-[#b8893e] transition-shadow duration-250 ease-out text-left"
+              suppressHydrationWarning
+              className="group relative overflow-hidden bg-[#ede4d3] cursor-pointer rounded-sm shadow-sm transition-all duration-500 hover:shadow-[0_20px_50px_rgba(46,30,18,0.1)] focus:outline-none focus:ring-2 focus:ring-[#b8893e]"
               onClick={() => {
                 setSelectedImage(item);
                 plausible("gallery_open", { props: { image_title: item.title } });
@@ -162,32 +113,41 @@ export default function GalleryClient({ items }: GalleryClientProps) {
                 }
               }}
             >
-              <div 
-                className={`relative w-full ${item.aspectRatio || "aspect-[3/4]"} bg-gradient-to-br from-[#E8D5B0]/40 to-[#8A8580]/20 overflow-hidden`}
-              >
+              <div className="relative w-full aspect-[4/5] overflow-hidden rounded-sm">
+                {/* Premium Hover Zoom & Overlay */}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-[800ms] ease-out z-10" />
+                
                 {item.image && typeof item.image === 'string' && (
                   <Image 
                     src={item.image} 
                     alt={item.title} 
                     fill 
                     loading="lazy"
-                    sizes="(max-width: 768px) 100vw, 33vw" 
-                    className="object-cover" 
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" 
+                    className="object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-[1.05]" 
                   />
                 )}
+                
+                {/* Hover Text Reveal */}
+                <div className="absolute bottom-0 left-0 w-full p-8 translate-y-6 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-[600ms] ease-out z-20 bg-gradient-to-t from-black/90 via-black/40 to-transparent">
+                  <h4 className="text-[#f5efe6] font-heading text-2xl mb-1.5">{item.title}</h4>
+                  <div className="w-10 h-[1px] bg-[#b8893e] mb-2 scale-x-0 group-hover:scale-x-100 transition-transform duration-[800ms] delay-100 origin-left" />
+                  <p className="text-[#b8893e] font-sans text-[10px] uppercase tracking-[0.2em]">{item.category}</p>
+                </div>
               </div>
             </div>
           ))}
         </div>
       </div>
 
+      {/* Lightbox */}
       {selectedImage && (
         <div 
           className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-300"
           onClick={() => setSelectedImage(null)}
         >
           <button 
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors"
+            className="absolute top-6 right-6 text-white/50 hover:text-white transition-colors"
             onClick={(e) => { e.stopPropagation(); setSelectedImage(null); }}
             aria-label="Close image gallery"
           >
@@ -195,7 +155,7 @@ export default function GalleryClient({ items }: GalleryClientProps) {
           </button>
           
           <div 
-            className="relative w-full max-w-4xl max-h-[80vh] aspect-[3/4] md:aspect-auto md:h-full bg-black/50"
+            className="relative w-full max-w-5xl h-full aspect-[4/5] md:aspect-auto"
             onClick={(e) => e.stopPropagation()}
           >
              {selectedImage.image && typeof selectedImage.image === 'string' && (
