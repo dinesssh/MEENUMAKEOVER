@@ -1,10 +1,11 @@
 import Preloader from "@/components/layout/Preloader";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-import Services from "@/components/sections/Services";
+import FeaturedPackages from "@/components/sections/FeaturedPackages";
 import Gallery from "@/components/sections/Gallery";
 import Testimonials from "@/components/sections/Testimonials";
 import Packages from "@/components/sections/Packages";
+import Scarcity from "@/components/sections/Scarcity";
 import Booking from "@/components/sections/Booking";
 import fs from "fs";
 import path from "path";
@@ -15,44 +16,8 @@ async function getTestimonials() {
   return testimonialsData;
 }
 
-async function getGalleryItems() {
-
-  const localItems: any[] = [];
-  try {
-    const galleryDir = path.join(process.cwd(), "public", "gallery");
-    if (fs.existsSync(galleryDir)) {
-      const files = fs.readdirSync(galleryDir);
-      files.forEach((file, index) => {
-        if (file.match(/\.(jpg|jpeg|png|gif|webp)$/i)) {
-          let category = "All";
-          const lowerName = file.toLowerCase();
-          if (lowerName.includes("bridal")) category = "Bridal";
-          else if (lowerName.includes("engagement")) category = "Engagement";
-          else if (lowerName.includes("reception")) category = "Reception";
-          else if (lowerName.includes("microblading")) category = "Microblading";
-
-          const title = file.split(".")[0].replace(/[_-]/g, " ").replace(/\b\w/g, l => l.toUpperCase());
-
-          localItems.push({
-            _id: `local-${index}`,
-            title: title,
-            category: category,
-            image: `/gallery/${file}`,
-            aspectRatio: "aspect-[3/4]"
-          });
-        }
-      });
-    }
-  } catch (error) {
-    console.error("Failed to read local gallery files", error);
-  }
-
-  return localItems;
-}
-
 export default async function Home() {
   const testimonials = await getTestimonials();
-  const galleryItems = await getGalleryItems();
 
   const localBusinessSchema = {
     "@context": "https://schema.org",
@@ -92,10 +57,10 @@ export default async function Home() {
     ...(testimonials.length > 0 && {
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": (testimonials.reduce((acc: number, cur: any) => acc + (cur.rating || 5), 0) / testimonials.length).toFixed(1),
+        "ratingValue": (testimonials.reduce((acc: number, cur: Record<string, unknown>) => acc + (typeof cur.rating === 'number' ? cur.rating : 5), 0) / testimonials.length).toFixed(1),
         "reviewCount": testimonials.length
       },
-      "review": testimonials.map((t: any) => ({
+      "review": testimonials.map((t: Record<string, unknown>) => ({
         "@type": "Review",
         "author": {
           "@type": "Person",
@@ -124,10 +89,11 @@ export default async function Home() {
       {/* Sections */}
       <Hero />
       <About />
-      <Services />
-      <Gallery items={galleryItems} />
+      <FeaturedPackages />
+      <Gallery />
       <Testimonials reviews={testimonials} />
       <Packages />
+      <Scarcity />
       <Booking />
     </main>
   );

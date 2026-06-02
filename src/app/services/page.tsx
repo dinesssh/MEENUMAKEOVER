@@ -1,4 +1,4 @@
-import Services from "@/components/sections/Services";
+import FeaturedPackages from "@/components/sections/FeaturedPackages";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,8 +8,6 @@ export const metadata: Metadata = {
 
 export default function ServicesPage() {
   return (
-    <div className="pt-24">
-      <Services />
-    </div>
+      <FeaturedPackages />
   );
 }

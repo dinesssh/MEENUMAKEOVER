@@ -25,7 +25,7 @@ export default function ThankYou() {
           Thank You!
         </h1>
         <p className="text-lg text-black/70 font-sans mb-8 anim-element leading-relaxed">
-          Your consultation request has been received. We'll reply within 24 hours to discuss your big day.
+          We&apos;ve received your message and will get back to you shortly.
         </p>
         <Link 
           href="/" 

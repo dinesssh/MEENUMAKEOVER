@@ -1,20 +1,120 @@
 @import "tailwindcss";
 
 @theme {
-  --color-black: #0A0A0A;
-  --color-gold: #C9A96E;
-  --color-gold-light: #E8D5B0;
-  --color-ivory: #FDFAF5;
-  --color-beige: #F5EFE6;
-  --color-warm-gray: #8A8580;
-  --color-text: #1A1A1A;
+  /* ── Brand Colors ── */
+  --color-black:       #0A0A0A;
+  --color-brown:       #4a2f1c;   /* navbar bg, primary CTAs */
+  --color-brown-dark:  #2e1e12;   /* CTA hover */
 
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-playfair), ui-serif, Georgia, serif;
-  --font-accent: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+  /* Gold Scale */
+  --color-gold-light:  #d4a574;   /* accent lines, borders */
+  --color-gold:        #b8893e;   /* primary brand gold */
+  --color-gold-dark:   #8a6428;   /* hover states */
+
+  /* Ivory Scale */
+  --color-ivory:       #f5efe6;   /* main background */
+  --color-ivory-warm:  #ede4d3;   /* cards, alternate sections */
+
+  --color-beige:       #F5EFE6;
+  --color-warm-gray:   #8A8580;
+  --color-text:        #2e1e12;
+
+  /* ── Typography ── */
+  --font-sans:    var(--font-inter),    ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-cormorant), ui-serif, Georgia, serif;
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: var(--color-ivory);
   color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Section Utility ── */
+.section-container {
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .section-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* ── Hide scrollbar utility ── */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Testimonials Infinite Marquee ── */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-wrapper {
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1.5rem;
+  width: max-content;
+  animation: marquee-scroll 40s linear infinite;
+  will-change: transform;
+}
+
+.marquee-track:hover,
+.marquee-track:focus-within {
+  animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+  .marquee-track {
+    animation-duration: 35s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    width: auto;
+  }
+  .marquee-wrapper {
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
 }

@@ -1,118 +1,181 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { Star, CheckCircle } from "lucide-react";
+import { Star, ChevronLeft, ChevronRight } from "lucide-react";
+import { gsap, useGSAP } from "@/lib/gsap";
+import { cn } from "@/lib/utils";
+import { H2, Eyebrow, Body } from "@/components/ui/Typography";
+import { setupReducedMotion } from "@/lib/motion";
 
+interface Testimonial {
+  _id?: string;
+  name: string;
+  occasion: string;
+  rating?: number;
+  text: string;
+  image?: string;
+}
 
-export default function Testimonials({ reviews = [] }: { reviews?: any[] }) {
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
+export default function Testimonials({ reviews = [] }: { reviews?: Testimonial[] }) {
+  const [isReduced, setIsReduced] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!carouselRef.current || isHovered || reviews.length === 0) return;
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsReduced(mediaQuery.matches);
+    const handler = (e: MediaQueryListEvent) => setIsReduced(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
 
-    const interval = setInterval(() => {
-      const container = carouselRef.current;
-      if (!container) return;
+  const handleScroll = (dir: "left" | "right") => {
+    if (!scrollRef.current) return;
+    const amount = window.innerWidth < 768 ? 320 + 24 : 380 + 24;
+    scrollRef.current.scrollBy({ left: dir === "left" ? -amount : amount, behavior: "smooth" });
+  };
 
-      const { scrollLeft, scrollWidth, clientWidth } = container;
-      if (scrollLeft + clientWidth >= scrollWidth - 10) {
-        container.scrollTo({ left: 0, behavior: "smooth" });
-      } else {
-        container.scrollBy({ left: 350, behavior: "smooth" });
-      }
-    }, 4000);
+  const displayReviews = isReduced ? reviews : [...reviews, ...reviews];
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  useGSAP(() => {
+    if (reviews.length === 0) return;
+    const mm = setupReducedMotion();
 
-    return () => clearInterval(interval);
-  }, [isHovered, reviews.length]);
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      // Heading Animations
+      gsap.fromTo(".testimonial-eyebrow", 
+        { opacity: 0, y: 16 }, 
+        { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", scrollTrigger: { trigger: sectionRef.current, start: "top 80%" } }
+      );
+      gsap.fromTo(".testimonial-heading", 
+        { opacity: 0, y: 20 }, 
+        { opacity: 1, y: 0, duration: 0.5, delay: 0.15, ease: "power2.out", scrollTrigger: { trigger: sectionRef.current, start: "top 80%" } }
+      );
+
+      // Star Intersection Observer
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            gsap.to(entry.target.querySelectorAll('.star-icon'), {
+              opacity: 1,
+              scale: 1,
+              duration: 0.2,
+              stagger: 0.08,
+              ease: "power2.out",
+              overwrite: "auto"
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+
+      document.querySelectorAll('.testimonial-card').forEach(card => observer.observe(card));
+      return () => observer.disconnect();
+    });
+
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      gsap.set(".testimonial-eyebrow, .testimonial-heading", { opacity: 1, y: 0 });
+    });
+
+    return () => mm.revert();
+  }, { scope: sectionRef });
 
   if (!reviews || reviews.length === 0) {
     return (
-      <section id="testimonials" className="py-24 md:py-32 bg-ivory text-black border-t border-black/5 text-center">
-        <div className="container mx-auto px-6">
-          <h2 className="text-gold font-accent tracking-widest text-sm font-medium mb-4 uppercase">Love Notes</h2>
-          <h3 className="text-4xl font-heading mb-6 text-black">Words From Our Brides</h3>
-          <p className="text-black/60 italic font-heading">Reviews will appear here once added in Sanity Studio.</p>
+      <section id="testimonials" className="py-20 lg:py-32 bg-white text-center border-t border-black/5">
+        <div className="section-container">
+          <Eyebrow className="mb-4">Love Notes</Eyebrow>
+          <H2 className="mb-6">Words From Our Brides</H2>
+          <Body className="italic text-[#2e1e12]/40">
+            Reviews will appear here once added in Sanity Studio.
+          </Body>
         </div>
       </section>
     );
   }
 
   return (
-    <section id="testimonials" className="py-24 md:py-32 bg-ivory text-black overflow-hidden border-t border-black/5">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="text-center mb-16">
-          <h2 className="text-gold font-accent tracking-widest text-sm font-medium mb-4 uppercase">
-            Love Notes
-          </h2>
-          <h3 className="text-4xl md:text-5xl font-heading mb-6 text-black">
-            Words From Our Brides
-          </h3>
+    <section id="testimonials" ref={sectionRef} className="py-20 lg:py-32 bg-white text-black overflow-hidden border-t border-black/5">
+      <div className="section-container mb-14">
+        <div className="text-center">
+          <div className="testimonial-eyebrow opacity-0">
+            <Eyebrow className="mb-4">Love Notes</Eyebrow>
+          </div>
+          <div className="testimonial-heading opacity-0">
+            <H2>Words From Our Brides</H2>
+          </div>
         </div>
       </div>
 
-      <div 
-        className="w-full px-6 md:px-12 lg:px-24"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onTouchStart={() => setIsHovered(true)}
-        onTouchEnd={() => setIsHovered(false)}
-      >
-        <div 
-          ref={carouselRef}
-          className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar gap-6 md:gap-8 pb-10 pt-4"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-        >
-          {reviews.map((review) => (
-            <div 
-              key={review._id || review.name}
-              className="snap-center shrink-0 w-[85vw] sm:w-[350px] bg-white p-8 md:p-10 shadow-sm border border-black/5 rounded-sm flex flex-col"
-            >
-              <div className="flex items-center gap-4 mb-6">
-                <div className="relative w-16 h-16 rounded-full border-2 border-gold/30 bg-[#F5EFE6] flex-shrink-0 overflow-hidden">
-                  {review.image && typeof review.image === 'string' && review.image !== '' && (
-                    <Image 
-                      src={review.image} 
-                      alt={review.name} 
-                      fill 
-                      className="object-cover" 
+      <div className="w-full overflow-hidden relative">
+        <div className={cn("w-full", !isReduced && "marquee-wrapper")}>
+          <div
+            ref={scrollRef}
+            className={cn(
+              "flex gap-6 pb-6 pt-2 px-6",
+              isReduced 
+                ? "overflow-x-auto snap-x snap-mandatory hide-scrollbar md:px-12"
+                : "marquee-track"
+            )}
+          >
+            {displayReviews.map((review, idx) => (
+              <div
+                key={`${review._id || review.name}-${idx}`}
+                className={cn(
+                  "testimonial-card bg-white p-8 lg:p-10 shadow-[0_4px_20px_rgba(184,137,62,0.08)] border border-[#b8893e]/20 rounded-xl flex flex-col min-h-[280px] h-full",
+                  isReduced ? "snap-center shrink-0 w-[82vw] sm:w-[320px]" : "shrink-0 w-[320px] md:w-[380px]"
+                )}
+              >
+                {/* Stars */}
+                <div className="flex gap-1 mb-6 testimonial-stars">
+                  {[...Array(review.rating || 5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      size={18} 
+                      className={cn("text-[#b8893e] fill-[#b8893e] star-icon", !isReduced && "opacity-0 scale-90")} 
                     />
-                  )}
+                  ))}
                 </div>
-                
-                <div>
-                  <h4 className="font-heading text-xl text-black">{review.name}</h4>
-                  <p className="text-xs font-accent tracking-wide text-black/50 uppercase mt-1">
-                    {review.occasion}
+
+                {/* Quote */}
+                <div className="relative flex-grow flex flex-col">
+                  <span className="absolute -top-6 -left-2 text-7xl text-[#b8893e] opacity-30 font-serif leading-none">&quot;</span>
+                  <p className="font-heading text-[22px] leading-relaxed italic text-[#2e1e12] relative z-10 mb-6">
+                    {review.text}
                   </p>
                 </div>
-              </div>
 
-              <div className="flex gap-1 mb-6">
-                {[...Array(review.rating || 5)].map((_, i) => (
-                  <Star key={i} size={16} className="text-gold fill-gold" />
-                ))}
+                {/* Divider & Author */}
+                <div className="mt-auto pt-6 border-t border-[#b8893e]/30">
+                  <p className="font-heading font-medium text-[20px] text-[#b8893e]">{review.name}</p>
+                  <p className="font-sans text-[11px] uppercase tracking-[0.15em] font-semibold text-[#2e1e12]/50 mt-1">{review.occasion}</p>
+                </div>
               </div>
-
-              <p className="font-heading italic text-lg text-black/80 leading-relaxed flex-grow">
-                &quot;{review.text}&quot;
-              </p>
-
-              <div className="mt-8 flex items-center gap-2 pt-4 border-t border-black/5">
-                <CheckCircle size={14} className="text-green-600" />
-                <span className="text-xs font-sans text-black/60">Verified Review</span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
+        {/* Manual navigation for reduced motion */}
+        {isReduced && reviews.length > 1 && (
+          <div className="flex justify-center gap-4 mt-8">
+            <button
+              onClick={() => handleScroll('left')}
+              aria-label="Previous testimonial"
+              className="p-3 rounded-full border border-[#b8893e]/30 bg-white text-[#b8893e] hover:bg-[#b8893e] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#b8893e]"
+            >
+              <ChevronLeft size={24} />
+            </button>
+            <button
+              onClick={() => handleScroll('right')}
+              aria-label="Next testimonial"
+              className="p-3 rounded-full border border-[#b8893e]/30 bg-white text-[#b8893e] hover:bg-[#b8893e] hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-[#b8893e]"
+            >
+              <ChevronRight size={24} />
+            </button>
+          </div>
+        )}
       </div>
-      
-      <style dangerouslySetInnerHTML={{__html: `
-        .hide-scrollbar::-webkit-scrollbar {
-          display: none;
-        }
-      `}} />
     </section>
   );
 }

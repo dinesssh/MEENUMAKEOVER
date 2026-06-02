@@ -1,20 +1,146 @@
 [
   {
     "_id": "t1",
-    "name": "Priya Sharma",
-    "occasion": "Bridal Makeup",
-    "text": "Meenu made me feel like an absolute princess on my wedding day. The makeup lasted all night and looked flawless in photos!",
+    "name": "Roshan Fathima",
+    "occasion": "Hairstyling",
+    "text": "Got my haircut and hair Botox done at Meenu Makeup Studio and omg the results are so good!!! My hair feels super soft, frizz-free. Meenu sis really took her time to understand what I wanted and delivered exactly that. Totally worth it!!!",
     "rating": 5,
     "image": "",
-    "date": "2024-05-12T00:00:00Z"
+    "date": "2025-12-01T00:00:00Z"
   },
   {
     "_id": "t2",
-    "name": "Ananya Desai",
-    "occasion": "Reception",
-    "text": "I was nervous about getting my makeup done, but the team here understood exactly what I wanted. A natural, glowing look that was just perfect.",
+    "name": "Bakya Maruthappan",
+    "occasion": "Bridal & Engagement Makeup",
+    "text": "We have booked Meenu Makeover for my sister in law. Both Muhurtham and engagement looks are very beautiful and unique. Thanks you sister for the wonderful work.",
     "rating": 5,
     "image": "",
-    "date": "2024-06-03T00:00:00Z"
+    "date": "2025-03-01T00:00:00Z"
+  },
+  {
+    "_id": "t3",
+    "name": "Kiruthika Kanagaraj",
+    "occasion": "Special Occasion Makeup",
+    "text": "I recently had my makeup done by Meenu Makeover for a special occasion, and the results were fantastic! The makeup was absolutely superb! I was so happy with how the pictures turned out, and I've been sharing them with everyone. The feedback has been unanimous — all my friends and family said I looked awesome! Your skill and attention to detail truly made my day extra special. Highly recommended!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-11-15T00:00:00Z"
+  },
+  {
+    "_id": "t4",
+    "name": "Krish Kanna",
+    "occasion": "Bridal Makeup — Sister's Wedding",
+    "text": "I booked her for my sister's wedding. Such an excellent makeup done by her. Really thank you so much mam for your great work and dedication. Thank you again.",
+    "rating": 5,
+    "image": "",
+    "date": "2025-03-10T00:00:00Z"
+  },
+  {
+    "_id": "t5",
+    "name": "Anu Priya",
+    "occasion": "Hair Colouring & Layer Cut",
+    "text": "I came for layer cut and hair colouring. Superb service, very friendly staff, cozy ambience. I'm very satisfied with the service!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-11-20T00:00:00Z"
+  },
+  {
+    "_id": "t6",
+    "name": "Anuja",
+    "occasion": "Bridal Makeup — Madurai",
+    "text": "I loved the makeup akka, really really happy! Thanks for making my big day even more special.",
+    "rating": 5,
+    "image": "",
+    "date": "2025-10-26T00:00:00Z"
+  },
+  {
+    "_id": "t7",
+    "name": "Sharmi",
+    "occasion": "Special Event Makeup — Madurai",
+    "text": "Hi mam, make up super erundhuchu, yellarum sonnanga — very natural and also a different look. Thanks for making my day more special.",
+    "rating": 5,
+    "image": "",
+    "date": "2025-03-08T00:00:00Z"
+  },
+  {
+    "_id": "t8",
+    "name": "Happy Bride",
+    "occasion": "Bridal Makeup",
+    "text": "Thank you so much, mam! You made me feel so pretty and confident. You really did an amazing job, and I truly loved my entire look. Will call soon to discuss for our reception date booking!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-11-01T00:00:00Z"
+  },
+  {
+    "_id": "t9",
+    "name": "Yuvarani",
+    "occasion": "Special Event Makeup — Madurai",
+    "text": "Ur work was awesome mam. Many of them appreciated the makeup. Thank you so much for making my day more special!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-05-28T00:00:00Z"
+  },
+  {
+    "_id": "t10",
+    "name": "Naga Rani",
+    "occasion": "Salon Experience",
+    "text": "I had the best service here — I'm so happy that I found this location! They make me feel like home, they are so calm and kind. They even provided me tea. So happy that I found the best service!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-12-05T00:00:00Z"
+  },
+  {
+    "_id": "t11",
+    "name": "Arulpandi A",
+    "occasion": "Makeup Service",
+    "text": "Best service and AFFORDABLE price. Very best parlour... I am fully satisfied with the makeup work!!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-12-08T00:00:00Z"
+  },
+  {
+    "_id": "t12",
+    "name": "Suganya Narayanan",
+    "occasion": "Permanent Hair Straightening",
+    "text": "Very happy to share my experience here — thanks a lot to Meenu Makeover! Got my permanent hair straightening done here. I am so happy with the service here... too good!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-11-10T00:00:00Z"
+  },
+  {
+    "_id": "t13",
+    "name": "SN Valli",
+    "occasion": "Bridal & Engagement Makeup",
+    "text": "Very very excellent — super engagement and marriage makeup! Even without looking in the mirror the makeup felt so good. Absolutely loved it!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-03-15T00:00:00Z"
+  },
+  {
+    "_id": "t14",
+    "name": "Vicky Viki",
+    "occasion": "Facial Treatment",
+    "text": "So happy with my facial experience here! Skin looked brighter and more refreshed instantly. Premium products, professional staff, and they walked me through every step.",
+    "rating": 5,
+    "image": "",
+    "date": "2026-05-01T00:00:00Z"
+  },
+  {
+    "_id": "t15",
+    "name": "Rithika",
+    "occasion": "Trial Bridal Makeup",
+    "text": "I booked them through a Facebook post and got the trial makeup done — I was so satisfied with their work! I loved their hospitality too. They give suggestions rather than just following client preferences blindly, and I'm so glad I followed their advice. The makeup went so well, and it lasted more than 8 hours! That made me even happier. Thank you Meenu Makeover — for your good soul you will grow more.",
+    "rating": 5,
+    "image": "",
+    "date": "2026-05-31T00:00:00Z"
+  },
+  {
+    "_id": "t16",
+    "name": "Sharmila",
+    "occasion": "Keratin Treatment",
+    "text": "I visited Meenu Makeover and did a keratin treatment — very good and very professional service. Thank you Meenu Makeover!",
+    "rating": 5,
+    "image": "",
+    "date": "2025-11-05T00:00:00Z"
   }
 ]
