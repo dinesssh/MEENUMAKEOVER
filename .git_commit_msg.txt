@@ -1,0 +1,12 @@
+feat: complete luxury redesign of Meenu Makeover website
+
+Summary:
+- Luxury bridal redesign
+- Updated bridal packages from catalog
+- HD Makeup featured as most popular
+- Redesigned consultation flow
+- Enhanced gallery experience
+- Improved footer and contact sections
+- Mobile optimization
+- Performance improvements
+- Final UI/UX polish

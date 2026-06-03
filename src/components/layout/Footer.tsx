@@ -3,7 +3,7 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, CheckCircle2, Star, Sparkles } from "lucide-react";
+import { MapPin, CheckCircle2, Star, Sparkles, Phone, Camera, MessageCircle } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { gsap, useGSAP } from "@/lib/gsap";
@@ -53,35 +53,15 @@ export default function Footer() {
         {/* Background Gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_center,_rgba(200,161,90,0.1),_transparent_60%)] pointer-events-none" />
 
-        {/* ── Trust Bar ── */}
-        <div className="border-b border-[#C8A15A]/10 bg-[#1A1A1A]">
-          <div className="max-w-[1400px] mx-auto px-6 lg:px-12 py-8">
-            <div ref={trustRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-center divide-y md:divide-y-0 md:divide-x divide-[#C8A15A]/10">
-              {[
-                { icon: Sparkles, value: "750+", label: "Happy Brides" },
-                { icon: Star, value: "10+", label: "Years Experience" },
-                { icon: Star, value: "4.9★", label: "Client Rating" },
-                { icon: CheckCircle2, value: "100%", label: "Premium Products" }
-              ].map((stat, i) => (
-                <div key={i} className="flex flex-col items-center justify-center pt-6 md:pt-0 first:pt-0">
-                  <div className="text-[#C8A15A] mb-2"><stat.icon size={20} strokeWidth={1.5} /></div>
-                  <span className="font-heading text-2xl text-white mb-1">{stat.value}</span>
-                  <span className="font-sans text-[10px] uppercase tracking-[0.2em] text-[#C8A15A] font-medium">{stat.label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-20 pb-12">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-12 pt-16 pb-10">
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mb-20">
             
             {/* COLUMN 1 – BRAND */}
             <div className="lg:pr-8">
               <Link href="/" className="inline-block mb-6">
-                <div className="relative w-20 h-20">
-                  <Image src="/logo.webp" alt="Meenu Makeover" fill className="object-contain" />
+                <div className="relative w-20 h-20 rounded-full overflow-hidden border border-[#C8A15A]/30">
+                  <Image src="/logo.webp" alt="Meenu Makeover" fill className="object-cover" />
                 </div>
               </Link>
               <h3 className="font-heading text-2xl text-white mb-4">Meenu Makeover</h3>
@@ -118,22 +98,42 @@ export default function Footer() {
             <div>
               <h4 className="font-sans text-[11px] uppercase tracking-[0.3em] text-[#C8A15A] font-semibold mb-8">Contact & Location</h4>
               
-              <div className="space-y-4 mb-8">
+              <div className="space-y-4 mb-6">
                 <a 
-                  href={`https://wa.me/${siteConfig.whatsappNumber}`} 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center gap-3 font-sans text-sm text-white/80 hover:text-[#C8A15A] transition-colors"
+                  href="tel:+917397601444"
+                  className="flex items-center gap-3 font-sans text-[15px] tracking-wide text-white/80 hover:text-[#C8A15A] transition-colors"
                 >
-                  <WhatsApp size={16} /> +{siteConfig.whatsappNumber}
+                  <Phone size={16} className="text-[#C8A15A]" /> +91 73976 01444
+                </a>
+                <a 
+                  href="tel:+917397631999"
+                  className="flex items-center gap-3 font-sans text-[15px] tracking-wide text-white/80 hover:text-[#C8A15A] transition-colors"
+                >
+                  <Phone size={16} className="text-[#C8A15A]" /> +91 73976 31999
                 </a>
                 <a 
                   href="https://instagram.com/meenu_makeover_madurai" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="flex items-center gap-3 font-sans text-sm text-white/80 hover:text-[#C8A15A] transition-colors"
+                  className="flex items-center gap-3 font-sans text-[15px] tracking-wide text-white/80 hover:text-[#C8A15A] transition-colors"
                 >
-                  <Instagram size={16} /> @meenu_makeover_madurai
+                  <Camera size={16} className="text-[#C8A15A]" /> @meenu_makeover_madurai
+                </a>
+              </div>
+
+              {/* Luxury Contact Action Buttons */}
+              <div className="flex gap-3 mb-8 w-full">
+                <a href="tel:+917397601444" className="flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 hover:border-[#C8A15A]/40 rounded-sm hover:bg-white/10 transition-colors group">
+                  <Phone size={14} className="text-[#C8A15A] group-hover:scale-110 transition-transform" />
+                  <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/80 group-hover:text-white mt-1 sm:mt-0">Call Now</span>
+                </a>
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer" className="flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 bg-[#25D366]/10 border border-[#25D366]/30 hover:border-[#25D366]/70 rounded-sm hover:bg-[#25D366]/20 transition-colors group">
+                  <MessageCircle size={14} className="text-[#25D366] group-hover:scale-110 transition-transform" />
+                  <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/80 group-hover:text-white mt-1 sm:mt-0">WhatsApp</span>
+                </a>
+                <a href="https://instagram.com/meenu_makeover_madurai" target="_blank" rel="noopener noreferrer" className="flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 hover:border-[#C8A15A]/40 rounded-sm hover:bg-white/10 transition-colors group">
+                  <Instagram size={14} className="text-[#C8A15A] group-hover:scale-110 transition-transform" />
+                  <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/80 group-hover:text-white mt-1 sm:mt-0">Instagram</span>
                 </a>
               </div>
 
@@ -165,6 +165,8 @@ export default function Footer() {
             </div>
 
           </div>
+
+
 
           {/* Bottom Bar */}
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 font-sans text-[11px] uppercase tracking-[0.1em] text-white/40">

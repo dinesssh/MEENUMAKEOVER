@@ -32,8 +32,8 @@ export default function Hero() {
       if (rightRef.current) {
         gsap.fromTo(
           rightRef.current,
-          { clipPath: "inset(100% 0 0 0)", scale: 1.05 },
-          { clipPath: "inset(0% 0 0 0)", scale: 1, duration: 1.5, ease: "power4.inOut" }
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 1, ease: "power2.out" }
         );
       }
 
@@ -45,8 +45,8 @@ export default function Hero() {
       if (leftRef.current) {
         tl.fromTo(
           Array.from(leftRef.current.children),
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.9, stagger: 0.12, ease: "power3.out" }
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out" }
         );
       }
       
@@ -121,7 +121,7 @@ export default function Hero() {
       </div>
 
       {/* ── Grid ── */}
-      <div className="section-container relative z-10 w-full py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-center h-full">
+      <div className="section-container relative z-10 w-full py-10 lg:py-12 grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-center h-full">
 
         {/* ═══════════════ LEFT COLUMN ═══════════════ */}
         <div ref={leftRef} className="flex flex-col pb-20 lg:pb-0 pt-32 lg:pt-0">
@@ -156,9 +156,11 @@ export default function Hero() {
           {/* 4 · CTA buttons */}
           <div className="flex flex-col sm:flex-row gap-5 mb-14">
             <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hi%20Meenu,%20I%27m%20interested%20in%20booking%20a%20bridal%20consultation`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href="#booking"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+              }}
               className="group relative overflow-hidden bg-[#D4AF37] text-white font-sans font-medium text-[12px] uppercase tracking-[0.2em] px-8 py-4 rounded-sm flex items-center justify-center transition-transform hover:scale-[1.02]"
             >
               <span className="relative z-10 flex items-center">

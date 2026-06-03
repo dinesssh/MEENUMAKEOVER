@@ -9,7 +9,24 @@ import { cn } from "@/lib/utils";
 export default function ConversionElements() {
   const [showExitModal, setShowExitModal] = useState(false);
   const [isBookingVisible, setIsBookingVisible] = useState(false);
+  const [isScrollingDown, setIsScrollingDown] = useState(false);
   const plausible = usePlausible();
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    
+    const handleScroll = () => {
+      if (window.scrollY > lastScrollY && window.scrollY > 100) {
+        setIsScrollingDown(true);
+      } else {
+        setIsScrollingDown(false);
+      }
+      lastScrollY = window.scrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     const hasSeenModal = sessionStorage.getItem("hasSeenExitModal");
@@ -87,8 +104,8 @@ export default function ConversionElements() {
         onClick={() => plausible("whatsapp_float_click")}
         aria-label="Message on WhatsApp"
         className={cn(
-          "fixed bottom-6 right-6 z-[60] md:hidden flex items-center justify-center w-14 h-14 bg-[#111111] border border-white/20 text-white rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:bg-[#25D366] hover:border-[#25D366] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
-          isBookingVisible ? "translate-y-[150%] opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
+          "fixed bottom-4 right-4 z-[40] md:hidden flex items-center justify-center w-14 h-14 bg-[#111111] border border-white/20 text-white rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:bg-[#25D366] hover:border-[#25D366] transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]",
+          (isBookingVisible || isScrollingDown) ? "translate-y-[150%] opacity-0 pointer-events-none" : "translate-y-0 opacity-100"
         )}
       >
         <MessageCircle size={22} />

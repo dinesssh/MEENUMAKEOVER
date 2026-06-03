@@ -1,10 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { Check, ArrowRight, Sparkles } from "lucide-react";
+import { Check, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { H2, Eyebrow, BodyLg } from "@/components/ui/Typography";
-import { TYPE_TOKENS } from "@/lib/typography";
 import { MOTION, setupReducedMotion } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 import { featuredPackages } from "@/data/featuredPackages";
@@ -13,8 +12,50 @@ import Image from "next/image";
 export default function FeaturedPackages() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef  = useRef<HTMLDivElement>(null);
-  const cardsRef   = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
   const exploreRef = useRef<HTMLDivElement>(null);
+
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+
+  // Carousel Logic
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => {
+        const nextIdx = (prev + 1) % featuredPackages.length;
+        scrollToIndex(nextIdx);
+        return nextIdx;
+      });
+    }, 4500);
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const scrollToIndex = (index: number) => {
+    if (!cardsContainerRef.current) return;
+    const container = cardsContainerRef.current;
+    const cards = container.children;
+    if (cards[index]) {
+      const card = cards[index] as HTMLElement;
+      container.scrollTo({
+        left: card.offsetLeft - container.offsetLeft - 16,
+        behavior: "smooth"
+      });
+    }
+  };
+
+  const handleScroll = () => {
+    if (!cardsContainerRef.current) return;
+    setShowSwipeHint(false); // Hide hint on interaction
+    const container = cardsContainerRef.current;
+    const scrollPosition = container.scrollLeft;
+    const cardWidth = container.offsetWidth > 400 ? 400 : container.offsetWidth * 0.85; 
+    const newIndex = Math.round(scrollPosition / cardWidth);
+    if (newIndex >= 0 && newIndex < featuredPackages.length) {
+      setActiveIndex(newIndex);
+    }
+  };
 
   useGSAP(() => {
     const mm = setupReducedMotion();
@@ -27,53 +68,21 @@ export default function FeaturedPackages() {
         { 
           y: 0, 
           opacity: 1, 
-          duration: MOTION.duration.slow, 
+          duration: 0.6, 
           stagger: 0.1, 
-          ease: MOTION.easing.out,
+          ease: "power2.out",
           scrollTrigger: { trigger: sectionRef.current, start: "top 75%" } 
         }
       );
       
-      // Cards Animation
-      gsap.fromTo(
-        cardsRef.current?.children as HTMLCollection,
-        { y: 40, opacity: 0 },
-        { 
-          y: 0, 
-          opacity: 1, 
-          duration: 0.8, 
-          stagger: 0.15, 
-          ease: "power3.out",
-          scrollTrigger: { trigger: cardsRef.current, start: "top 80%" } 
-        }
-      );
-
       // Explore Cards Animation
       gsap.fromTo(
         exploreRef.current?.children as HTMLCollection,
         { scale: 0.95, opacity: 0, y: 20 },
         {
-          scale: 1, opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out",
+          scale: 1, opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: "power2.out",
           scrollTrigger: { trigger: exploreRef.current, start: "top 85%" }
         }
-      );
-    });
-
-    mm.add("(prefers-reduced-motion: reduce)", () => {
-      gsap.fromTo(
-        headerRef.current?.children as HTMLCollection,
-        { opacity: 0 },
-        { opacity: 1, duration: MOTION.duration.fast, stagger: MOTION.stagger.tight, scrollTrigger: { trigger: sectionRef.current, start: "top 75%" } }
-      );
-      gsap.fromTo(
-        cardsRef.current?.children as HTMLCollection,
-        { opacity: 0 },
-        { opacity: 1, duration: MOTION.duration.fast, stagger: MOTION.stagger.tight, scrollTrigger: { trigger: cardsRef.current, start: "top 80%" } }
-      );
-      gsap.fromTo(
-        exploreRef.current?.children as HTMLCollection,
-        { opacity: 0 },
-        { opacity: 1, duration: MOTION.duration.fast, stagger: MOTION.stagger.tight, scrollTrigger: { trigger: exploreRef.current, start: "top 85%" } }
       );
     });
 
@@ -81,92 +90,130 @@ export default function FeaturedPackages() {
   }, { scope: sectionRef });
 
   return (
-    <section id="signature-experiences" ref={sectionRef} className="py-24 lg:py-32 bg-[#F7F3ED] text-[#2B1D16]">
+    <section id="packages" ref={sectionRef} className="py-16 lg:py-20 bg-[#F7F3ED] text-[#2B1D16]">
       <div className="section-container">
         
         {/* Header Section */}
-        <div ref={headerRef} className="text-center max-w-2xl mx-auto mb-16 lg:mb-20">
-          <Eyebrow className="mb-4 text-[#C8A15A]">SIGNATURE COLLECTION</Eyebrow>
-          <H2 className="mb-5 text-[#2B1D16]">Signature Experiences</H2>
+        <div ref={headerRef} className="text-center max-w-2xl mx-auto mb-12 lg:mb-16">
+          <Eyebrow className="mb-4 text-[#C8A15A]">OUR PACKAGES</Eyebrow>
+          <H2 className="mb-5 text-[#2B1D16]">Bridal & Salon Services</H2>
           <BodyLg className="text-[#2B1D16]/70">
-            Our most requested bridal and salon experiences, crafted for timeless beauty, confidence, and unforgettable moments.
+            Professional bridal and salon packages crafted for flawless beauty and confidence.
           </BodyLg>
         </div>
 
-        {/* Swipeable Mobile Carousel / 2x2 Desktop Grid */}
+        {/* Carousel Container */}
         <div 
-          ref={cardsRef} 
-          className="flex md:grid md:grid-cols-2 gap-6 lg:gap-10 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-10 -mx-4 px-4 md:mx-0 md:px-0"
+          className="relative"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          onTouchStart={() => { setIsPaused(true); setShowSwipeHint(false); }}
+          onTouchEnd={() => setIsPaused(false)}
         >
-          {featuredPackages.map((pkg) => (
-            <div 
-              key={pkg.id} 
-              className={cn(
-                "group relative bg-white rounded-sm p-8 lg:p-12 shadow-sm transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden shrink-0 w-[85vw] sm:w-[65vw] md:w-auto snap-center border",
-                pkg.isFeatured 
-                  ? "border-[#C8A15A]/60 shadow-[0_10px_30px_rgba(200,161,90,0.15)] hover:shadow-[0_20px_50px_rgba(200,161,90,0.25)]" 
-                  : "border-[#C8A15A]/20 hover:border-[#C8A15A]/60 hover:shadow-[0_20px_50px_rgba(43,29,22,0.08)]"
-              )}
-            >
-              {/* Premium Glow Effect on Hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#C8A15A]/[0.08] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+          {showSwipeHint && (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none md:hidden bg-black/60 text-white px-4 py-2 rounded-full backdrop-blur-sm text-xs tracking-widest uppercase animate-pulse">
+              Swipe to explore
+            </div>
+          )}
 
-              <div className="relative z-10 flex flex-col h-full">
-                <div className="flex items-center justify-between mb-8">
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-[#2B1D16]/60 font-semibold">
-                    {pkg.category}
-                  </span>
-                  <span className={cn(
-                    "relative overflow-hidden bg-[#F7F3ED] text-[#C8A15A] border border-[#C8A15A]/40 uppercase tracking-[0.15em] rounded-sm font-medium shadow-sm transition-colors group-hover:bg-[#C8A15A] group-hover:text-white flex items-center gap-1.5",
-                    pkg.isFeatured ? "px-5 py-2 text-[10px]" : "px-4 py-1.5 text-[9px]",
-                    pkg.isFeatured && "badge-shine"
-                  )}>
-                    {pkg.isFeatured && <Sparkles size={12} className="shrink-0" />}
-                    {pkg.badge}
-                  </span>
-                </div>
-                
-                <h3 className={cn(
-                  "font-heading text-[#2B1D16] mb-3 group-hover:text-[#C8A15A] transition-colors duration-300",
-                  pkg.isFeatured ? "text-3xl lg:text-[36px]" : "text-3xl lg:text-[34px]"
-                )}>
-                  {pkg.title}
-                </h3>
-                
-                <div className="font-sans text-2xl lg:text-3xl font-medium text-[#C8A15A] tracking-tight mb-8">
-                  {pkg.price}
-                </div>
-                
-                <div className="w-12 h-[1px] bg-[#C8A15A]/40 mb-8 group-hover:w-full transition-all duration-700" />
-                
-                <ul className="space-y-4 mb-12 flex-grow">
-                  {pkg.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-start gap-3 group/item">
-                      <Check className="text-[#C8A15A] shrink-0 mt-0.5 opacity-80 group-hover/item:scale-110 transition-transform" size={16} />
-                      <p className="text-[#2B1D16]/80 text-sm lg:text-[15px] leading-relaxed font-sans">{feature}</p>
-                    </li>
-                  ))}
-                </ul>
-                
-                <a 
-                  href={pkg.linkTarget}
-                  onClick={(e) => { e.preventDefault(); document.querySelector(pkg.linkTarget)?.scrollIntoView({ behavior: "smooth" }); }}
+          <div 
+            ref={cardsContainerRef} 
+            onScroll={handleScroll}
+            className="flex gap-4 lg:gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-10 -mx-4 px-4 md:mx-0 md:px-0 scroll-smooth"
+          >
+            {featuredPackages.map((pkg, idx) => {
+              // Highlight HD Bridal as MOST POPULAR
+              const isPopular = pkg.id === "hd-bridal";
+              return (
+                <div 
+                  key={pkg.id} 
                   className={cn(
-                    "group/cta relative overflow-hidden w-full text-center py-4 border tracking-[0.2em] text-[11px] rounded-sm font-sans uppercase font-medium transition-colors",
-                    pkg.isFeatured 
-                      ? "bg-[#C8A15A] text-white border-[#C8A15A] hover:bg-[#B8860B]" 
-                      : "bg-transparent text-[#2B1D16] border-[#C8A15A] hover:bg-[#C8A15A] hover:text-white"
+                    "group relative bg-white rounded-sm p-8 lg:p-10 transition-all duration-500 flex flex-col h-full shrink-0 w-[85vw] sm:w-[65vw] md:w-[400px] snap-center border",
+                    isPopular 
+                      ? "border-[#C8A15A] shadow-[0_20px_50px_rgba(200,161,90,0.25)] ring-1 ring-[#C8A15A]/40 scale-[1.03] z-10" 
+                      : "border-[#C8A15A]/20 hover:border-[#C8A15A]/50 hover:shadow-lg"
                   )}
                 >
-                  <span className="relative z-10">{pkg.buttonText}</span>
-                </a>
-              </div>
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-[#2B1D16]/60 font-semibold">
+                        {pkg.category}
+                      </span>
+                      <span className={cn(
+                        "relative border uppercase tracking-[0.15em] rounded-sm font-medium flex items-center gap-1.5",
+                        isPopular 
+                          ? "px-5 py-2 text-[10px] bg-gradient-to-r from-[#C8A15A] to-[#B8860B] text-white border-transparent shadow-md" 
+                          : "px-4 py-1.5 text-[9px] bg-[#F7F3ED] text-[#C8A15A] border-[#C8A15A]/40"
+                      )}>
+                        {isPopular ? "⭐ MOST BOOKED" : pkg.badge}
+                      </span>
+                    </div>
+                    
+                    <h3 className={cn(
+                      "font-heading mb-2 transition-colors",
+                      isPopular 
+                        ? "text-3xl lg:text-[38px] leading-tight text-[#B8860B] drop-shadow-sm font-medium" 
+                        : "text-2xl lg:text-[32px] leading-tight text-[#2B1D16] group-hover:text-[#C8A15A]"
+                    )}>
+                      {pkg.title}
+                    </h3>
+                    
+                    <div className="font-sans text-3xl lg:text-[34px] font-semibold text-[#B8860B] tracking-tight mb-8 mt-1">
+                      {pkg.price}
+                    </div>
+                    
+                    <div className="w-12 h-[1px] bg-[#C8A15A]/40 mb-8 group-hover:w-full transition-all duration-700" />
+                    
+                    <ul className="space-y-4 mb-10 flex-grow">
+                      {pkg.features.map((feature, fIdx) => (
+                        <li key={fIdx} className="flex items-start gap-3 group/item">
+                          <Check className="text-[#C8A15A] shrink-0 mt-0.5 opacity-80" size={16} />
+                          <p className="text-[#2B1D16]/80 text-sm lg:text-[15px] leading-relaxed font-sans">{feature}</p>
+                        </li>
+                      ))}
+                    </ul>
+                    
+                    <a 
+                      href={pkg.linkTarget}
+                      onClick={(e) => { e.preventDefault(); document.querySelector(pkg.linkTarget)?.scrollIntoView({ behavior: "smooth" }); }}
+                      className={cn(
+                        "relative w-full text-center py-4 border tracking-[0.2em] text-[11px] rounded-sm font-sans uppercase font-medium transition-colors",
+                        isPopular 
+                          ? "bg-[#C8A15A] text-white border-[#C8A15A] hover:bg-[#B8860B]" 
+                          : "bg-transparent text-[#2B1D16] border-[#C8A15A] hover:bg-[#C8A15A] hover:text-white"
+                      )}
+                    >
+                      {pkg.buttonText}
+                    </a>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Carousel Controls */}
+          <div className="flex flex-col items-center justify-center mt-6 gap-3">
+            <div className="flex gap-2">
+              {featuredPackages.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => { scrollToIndex(idx); setActiveIndex(idx); }}
+                  className={cn(
+                    "w-2 h-2 rounded-full transition-all duration-300 focus:outline-none",
+                    activeIndex === idx ? "bg-[#C8A15A] w-6" : "bg-[#C8A15A]/30 hover:bg-[#C8A15A]/60"
+                  )}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
             </div>
-          ))}
+            <div className="font-sans text-[10px] tracking-widest text-[#2B1D16]/50">
+              {activeIndex + 1} / {featuredPackages.length}
+            </div>
+          </div>
         </div>
 
         {/* Luxury Navigation Cards */}
-        <div className="mt-20 lg:mt-32 flex flex-col items-center justify-center relative z-10 border-t border-[#C8A15A]/20 pt-20">
+        <div className="mt-16 lg:mt-24 flex flex-col items-center justify-center relative z-10 border-t border-[#C8A15A]/20 pt-16">
           <Eyebrow className="mb-10 text-[#C8A15A] tracking-[0.3em] uppercase text-xs">
             Continue Exploring
           </Eyebrow>

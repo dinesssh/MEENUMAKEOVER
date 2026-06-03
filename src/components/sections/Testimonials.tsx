@@ -26,9 +26,15 @@ function TestimonialCard({ review }: { review: Testimonial }) {
       {/* Subtle Glow */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#B8860B]/[0.03] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-      {/* Subtle Quote Icon */}
-      <div className="absolute top-6 right-6 opacity-[0.04] group-hover:opacity-[0.08] group-hover:scale-110 transition-all duration-700 pointer-events-none">
-        <Quote size={80} className="text-[#B8860B] fill-[#B8860B]" />
+      {/* Verified Google Review Badge */}
+      <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-gray-50 border border-gray-100 px-2.5 py-1.5 rounded-sm shadow-sm pointer-events-none z-10">
+        <svg viewBox="0 0 48 48" width="14" height="14">
+          <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12c0-6.627,5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24c0,11.045,8.955,20,20,20c11.045,0,20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z"/>
+          <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z"/>
+          <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z"/>
+          <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z"/>
+        </svg>
+        <span className="font-sans text-[10px] font-medium text-gray-700">Google Review</span>
       </div>
 
       <div className="flex items-center gap-5 mb-6 relative z-10">
@@ -91,8 +97,8 @@ export default function Testimonials({ reviews = [] }: { reviews?: Testimonial[]
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       gsap.fromTo(
         headerRef.current?.children as HTMLCollection,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: sectionRef.current, start: "top 75%" } }
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: "power2.out", scrollTrigger: { trigger: sectionRef.current, start: "top 75%" } }
       );
     });
 
@@ -115,8 +121,8 @@ export default function Testimonials({ reviews = [] }: { reviews?: Testimonial[]
   const displayReviews = [...reviews, ...reviews];
 
   return (
-    <section id="testimonials" ref={sectionRef} className="bg-white py-24 lg:py-32 overflow-hidden border-t border-[#B8860B]/10">
-      <div className="section-container mb-16 lg:mb-20">
+    <section id="testimonials" ref={sectionRef} className="bg-white py-16 lg:py-20 overflow-hidden border-t border-[#B8860B]/10">
+      <div className="section-container mb-10 lg:mb-12">
         <div ref={headerRef} className="text-center max-w-3xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-center gap-2 mb-6 font-sans text-[10px] tracking-[0.3em] uppercase font-semibold text-[#B8860B]">
             <span className="flex items-center gap-1.5"><Star size={12} className="fill-[#B8860B]" /> 5.0 GOOGLE RATING</span>
@@ -135,7 +141,7 @@ export default function Testimonials({ reviews = [] }: { reviews?: Testimonial[]
       </div>
 
       {/* Infinite Carousel */}
-      <div className="w-full testimonial-carousel pb-12 pt-4">
+      <div className="w-full testimonial-carousel pb-12 pt-4 relative -ml-4 md:ml-0">
         <div className="testimonial-track will-change-transform">
           {displayReviews.map((review, idx) => (
             <TestimonialCard key={`${review._id || review.name}-${idx}`} review={review} />

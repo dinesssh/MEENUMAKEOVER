@@ -63,12 +63,12 @@ export default function Navbar() {
         {/* ── Logo + Brand Text ── */}
         <Link href="/" className="flex items-center gap-4 flex-shrink-0 group z-50" onClick={() => setIsMenuOpen(false)}>
           {/* Logo image */}
-          <div className="relative flex-shrink-0 w-12 h-12 md:w-14 md:h-14 transition-transform duration-500 group-hover:scale-105">
+          <div className="relative flex-shrink-0 w-12 h-12 md:w-14 md:h-14 transition-transform duration-500 group-hover:scale-105 rounded-full overflow-hidden border border-[#B8860B]/30 shadow-[0_0_10px_rgba(184,134,11,0.2)]">
             <Image
               src="/logo.webp"
               alt="Meenu Makeover"
               fill
-              className="object-contain drop-shadow-[0_0_10px_rgba(184,134,11,0.3)]"
+              className="object-cover"
               priority
             />
           </div>
@@ -189,13 +189,15 @@ export default function Navbar() {
             </div>
 
             <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=Hi%20Meenu,%20I%27m%20interested%20in%20a%20luxury%20bridal%20consultation`}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => { plausible("whatsapp_nav_click"); setIsMenuOpen(false); }}
+              href="#booking"
+              onClick={(e) => {
+                e.preventDefault();
+                setIsMenuOpen(false);
+                document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+              }}
               className="inline-flex items-center justify-center bg-[#B8860B] text-white font-sans text-[11px] uppercase tracking-[0.2em] font-medium px-10 py-5 rounded-sm hover:bg-[#96700A] transition-all duration-300 hover:shadow-[0_10px_30px_rgba(184,134,11,0.2)]"
             >
-              Reserve Experience
+              Book Consultation
             </a>
           </div>
 

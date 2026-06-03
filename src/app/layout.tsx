@@ -23,13 +23,19 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://meenumakeover.com'),
   title: {
-    default: "Meenu Makeover Studio | Luxury Bridal Makeup Madurai",
+    default: "Meenu Makeover Studio",
     template: "%s | Meenu Makeover Studio",
   },
   description: "Premium bridal makeup, HD styling, and luxury beauty experiences crafted for modern Tamil brides in Madurai.",
   icons: {
-    icon: "/favicon.ico",
-    apple: "/apple-touch-icon.png",
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
+      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
+    ],
+    apple: [
+      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
   openGraph: {
     title: "Meenu Makeover Studio",
