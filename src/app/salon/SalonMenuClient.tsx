@@ -129,6 +129,7 @@ const services = [
   },
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function ServiceCard({ service, index }: { service: any; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
   const Icon = service.icon;
@@ -188,6 +189,7 @@ function ServiceCard({ service, index }: { service: any; index: number }) {
               <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D4AF37]/20 to-transparent mb-6" />
               
               <div className="flex flex-col gap-1">
+                {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                 {service.items.map((item: any, i: number) => (
                   <motion.div 
                     initial={{ opacity: 0, x: -10 }}

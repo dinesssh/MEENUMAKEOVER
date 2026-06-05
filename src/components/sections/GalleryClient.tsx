@@ -30,6 +30,22 @@ export default function GalleryClient({ items }: GalleryClientProps) {
   const headerRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
 
+  const goToNext = (e?: React.MouseEvent | KeyboardEvent) => {
+    if (e && 'stopPropagation' in e) e.stopPropagation();
+    if (selectedIndex !== null && selectedIndex < items.length - 1) {
+      setIsImageLoading(true);
+      setSelectedIndex(selectedIndex + 1);
+    }
+  };
+
+  const goToPrev = (e?: React.MouseEvent | KeyboardEvent) => {
+    if (e && 'stopPropagation' in e) e.stopPropagation();
+    if (selectedIndex !== null && selectedIndex > 0) {
+      setIsImageLoading(true);
+      setSelectedIndex(selectedIndex - 1);
+    }
+  };
+
   // Keyboard navigation for Lightbox
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -40,29 +56,14 @@ export default function GalleryClient({ items }: GalleryClientProps) {
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedIndex, items.length]);
 
   const openLightbox = (index: number, item: GalleryItem) => {
     setIsImageLoading(true);
     setSelectedIndex(index);
     plausible("gallery_open", { props: { image_title: item.title } });
   };
-
-  const goToNext = useCallback((e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (selectedIndex !== null && selectedIndex < items.length - 1) {
-      setIsImageLoading(true);
-      setSelectedIndex(selectedIndex + 1);
-    }
-  }, [selectedIndex, items.length]);
-
-  const goToPrev = useCallback((e?: React.MouseEvent) => {
-    if (e) e.stopPropagation();
-    if (selectedIndex !== null && selectedIndex > 0) {
-      setIsImageLoading(true);
-      setSelectedIndex(selectedIndex - 1);
-    }
-  }, [selectedIndex]);
 
   // Touch Handlers for Mobile Swipe
   const handleTouchStart = (e: React.TouchEvent) => {

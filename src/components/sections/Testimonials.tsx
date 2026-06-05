@@ -71,7 +71,7 @@ function TestimonialCard({ review }: { review: Testimonial }) {
       {/* Review Text */}
       <div className="mt-auto relative z-10">
         <p className={cn("font-sans font-light text-[15px] text-[#4A4A4A] leading-[1.8] tracking-wide", !expanded && "line-clamp-6")}>
-          "{review.text}"
+          &quot;{review.text}&quot;
         </p>
         {review.text.length > 200 && ( 
           <button 

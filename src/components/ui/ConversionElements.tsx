@@ -133,7 +133,7 @@ export default function ConversionElements() {
                 <span className="italic text-[#B8860B]">Bridal Look?</span>
               </h3>
               <p className="font-sans text-[#4A4A4A] text-[15px] font-light leading-relaxed mb-10">
-                Let's discuss your wedding date, style preferences, and how we can bring your vision to life.
+                Let&apos;s discuss your wedding date, style preferences, and how we can bring your vision to life.
               </p>
               <div className="flex flex-col gap-4">
                 <a
