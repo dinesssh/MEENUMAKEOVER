@@ -7,5 +7,5 @@ export const siteConfig = {
   email: "meenushivani748@gmail.com",
   address: "Madurai, Tamil Nadu, India",
   pinCode: "625001",
-  domain: "meenumakeover.com",
+  domain: "www.meenumakeover.in",
 };

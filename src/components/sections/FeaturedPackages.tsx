@@ -220,7 +220,7 @@ export default function FeaturedPackages() {
           
           <div ref={exploreRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 w-full max-w-6xl">
             {/* Bridal Nav Card */}
-            <a href="/bridal" className="group relative h-80 md:h-[400px] w-full overflow-hidden rounded-sm flex flex-col items-center justify-center border border-[#C8A15A]/20 shadow-sm hover:shadow-[0_20px_50px_rgba(200,161,90,0.15)] hover:border-[#C8A15A]/60 transition-all duration-500 hover:-translate-y-2">
+            <a href="/bridal-services" className="group relative h-80 md:h-[400px] w-full overflow-hidden rounded-sm flex flex-col items-center justify-center border border-[#C8A15A]/20 shadow-sm hover:shadow-[0_20px_50px_rgba(200,161,90,0.15)] hover:border-[#C8A15A]/60 transition-all duration-500 hover:-translate-y-2">
               <Image src="/bridal-nav.jpg" alt="Explore Bridal Services" fill className="object-cover object-center transition-transform duration-[4s] group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
               <div className="absolute inset-0 bg-[#111111]/60 group-hover:bg-[#111111]/40 transition-colors duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/90 via-transparent to-transparent pointer-events-none" />
@@ -237,7 +237,7 @@ export default function FeaturedPackages() {
             </a>
             
             {/* Salon Nav Card */}
-            <a href="/salon" className="group relative h-80 md:h-[400px] w-full overflow-hidden rounded-sm flex flex-col items-center justify-center border border-[#C8A15A]/20 shadow-sm hover:shadow-[0_20px_50px_rgba(200,161,90,0.15)] hover:border-[#C8A15A]/60 transition-all duration-500 hover:-translate-y-2">
+            <a href="/salon-services" className="group relative h-80 md:h-[400px] w-full overflow-hidden rounded-sm flex flex-col items-center justify-center border border-[#C8A15A]/20 shadow-sm hover:shadow-[0_20px_50px_rgba(200,161,90,0.15)] hover:border-[#C8A15A]/60 transition-all duration-500 hover:-translate-y-2">
               <Image src="/salon-nav.jpg" alt="Explore Salon Services" fill className="object-cover object-center transition-transform duration-[4s] group-hover:scale-105" sizes="(max-width: 768px) 100vw, 50vw" />
               <div className="absolute inset-0 bg-[#111111]/60 group-hover:bg-[#111111]/40 transition-colors duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-[#111111]/90 via-transparent to-transparent pointer-events-none" />

@@ -55,7 +55,7 @@ export default function Packages() {
 
         <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-12 max-w-4xl mx-auto items-stretch">
           {/* Bridal Card */}
-          <Link href="/bridal" className="group flex flex-col relative bg-white border border-black/10 px-10 py-12 lg:px-14 lg:py-12 transition-all duration-500 hover:shadow-2xl hover:border-[#b8893e] hover:-translate-y-2 overflow-hidden h-full">
+          <Link href="/bridal-services" className="group flex flex-col relative bg-white border border-black/10 px-10 py-12 lg:px-14 lg:py-12 transition-all duration-500 hover:shadow-2xl hover:border-[#b8893e] hover:-translate-y-2 overflow-hidden h-full">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#b8893e]/5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform duration-500" />
             <H3 className="text-[#2e1e12] mb-4">Bridal Packages</H3>
             <Body className="text-[#2e1e12]/60 mb-8 flex-grow">
@@ -68,7 +68,7 @@ export default function Packages() {
           </Link>
 
           {/* Salon Card */}
-          <Link href="/salon" className="group flex flex-col relative bg-white border border-black/10 px-10 py-12 lg:px-14 lg:py-12 transition-all duration-500 hover:shadow-2xl hover:border-[#b8893e] hover:-translate-y-2 overflow-hidden h-full">
+          <Link href="/salon-services" className="group flex flex-col relative bg-white border border-black/10 px-10 py-12 lg:px-14 lg:py-12 transition-all duration-500 hover:shadow-2xl hover:border-[#b8893e] hover:-translate-y-2 overflow-hidden h-full">
             <div className="absolute top-0 right-0 w-32 h-32 bg-[#b8893e]/5 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform duration-500" />
             <H3 className="text-[#2e1e12] mb-4">Salon Services</H3>
             <Body className="text-[#2e1e12]/60 mb-8 flex-grow">

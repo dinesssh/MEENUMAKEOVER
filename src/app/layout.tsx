@@ -22,7 +22,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://meenumakeover.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.meenumakeover.in'),
   title: {
     default: "Meenu Makeover Studio",
     template: "%s | Meenu Makeover Studio",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Meenu Makeover Studio",
     description: "Premium bridal makeup, HD styling, and luxury beauty experiences.",
-    url: "https://meenumakeover.com",
+    url: "https://www.meenumakeover.in",
     siteName: "Meenu Makeover",
     images: [
       {
@@ -75,7 +75,7 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://cdn.sanity.io" />
         <PlausibleProvider 
-          {...{ domain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN || "meenumakeover.com" }}
+          {...{ domain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN || "meenumakeover.in" }}
           src="https://plausible.io/js/script.js"
         />
       </head>

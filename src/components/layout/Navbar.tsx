@@ -21,9 +21,10 @@ const Instagram = ({ size = 24, strokeWidth = 2, className = "" }) => (
 const navLinks = [
   { name: "Home",     href: "/" },
   { name: "About",    href: "/#about" },
-  { name: "Bridal",   href: "/bridal" },
-  { name: "Salon",    href: "/salon" },
-  { name: "Gallery",  href: "/#gallery" },
+  { name: "Bridal",   href: "/bridal-services" },
+  { name: "Salon",    href: "/salon-services" },
+  { name: "Gallery",  href: "/gallery" },
+  { name: "Contact",  href: "/contact" },
 ];
 
 export default function Navbar() {
@@ -171,11 +172,11 @@ export default function Navbar() {
                 +{siteConfig.whatsappNumber}
               </a>
               <a 
-                href="mailto:contact@meenumakeover.com" 
+                href="mailto:contact@meenumakeover.in" 
                 className="block font-sans text-sm md:text-base text-white/50 font-light tracking-wide hover:text-white transition-colors mt-2"
                 onClick={() => setIsMenuOpen(false)}
               >
-                contact@meenumakeover.com
+                contact@meenumakeover.in
               </a>
             </div>
 
