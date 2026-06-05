@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import PlausibleProvider from "next-plausible";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -93,6 +94,7 @@ export default function RootLayout({
         <ConversionElements />
         <Analytics />
         <SpeedInsights />
+        <GoogleAnalytics gaId="G-G02FQJR10B" />
       </body>
     </html>
   );
