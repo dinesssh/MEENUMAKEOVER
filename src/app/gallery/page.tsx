@@ -4,8 +4,8 @@ import path from "path";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Bridal Gallery",
-  description: "View our gallery of stunning Tamil brides, engagement looks, and reception styling.",
+  title: "Bridal Makeup Gallery | Meenu Makeover",
+  description: "View the stunning portfolio of Meenu Makeover. See flawless HD Makeup and Airbrush Makeup looks created by the finest Bridal Makeup Artist in Madurai at our Luxury Bridal Studio.",
 };
 
 export default function GalleryPage() {

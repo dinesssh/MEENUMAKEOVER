@@ -92,6 +92,16 @@ export default async function Home() {
       <Gallery />
       <Testimonials reviews={testimonials} />
       <Scarcity />
+      
+      {/* SEO Internal Link Block */}
+      <section className="py-12 bg-white text-center border-t border-[#E5E5E5]">
+        <div className="max-w-3xl mx-auto px-6">
+          <p className="text-[#4A4A4A] font-light text-sm leading-relaxed">
+            Meenu Makeover is widely recognized as the premier <a href="/bridal-makeup-madurai" className="text-[#B8860B] font-medium hover:underline">Bridal Makeup Artist in Madurai</a>. We offer luxury on-venue styling, HD makeup, and airbrush services tailored for your special day.
+          </p>
+        </div>
+      </section>
+
       <Booking />
     </main>
   );

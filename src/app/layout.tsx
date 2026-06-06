@@ -23,11 +23,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.meenumakeover.in'),
-  title: {
-    default: "Meenu Makeover Studio",
-    template: "%s | Meenu Makeover Studio",
-  },
-  description: "Premium bridal makeup, HD styling, and luxury beauty experiences crafted for modern Tamil brides in Madurai.",
+  title: "Meenu Makeover | Luxury Bridal Makeup Artist in Madurai",
+  description: "Welcome to Meenu Makeover, the premier Luxury Bridal Studio. Book the best Bridal Makeup Artist in Madurai for flawless HD Makeup and Airbrush Makeup services tailored for your special day.",
   icons: {
     icon: [
       { url: '/favicon.ico?v=2', sizes: 'any' },
@@ -39,8 +36,8 @@ export const metadata: Metadata = {
     ],
   },
   openGraph: {
-    title: "Meenu Makeover Studio",
-    description: "Premium bridal makeup, HD styling, and luxury beauty experiences.",
+    title: "Meenu Makeover | Luxury Bridal Makeup Artist in Madurai",
+    description: "Welcome to Meenu Makeover, the premier Luxury Bridal Studio. Book the best Bridal Makeup Artist in Madurai for flawless HD Makeup and Airbrush Makeup services tailored for your special day.",
     url: "https://www.meenumakeover.in",
     siteName: "Meenu Makeover",
     images: [
@@ -56,8 +53,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Meenu Makeover Studio",
-    description: "Premium bridal makeup and luxury beauty experiences.",
+    title: "Meenu Makeover | Luxury Bridal Makeup Artist in Madurai",
+    description: "Welcome to Meenu Makeover, the premier Luxury Bridal Studio. Book the best Bridal Makeup Artist in Madurai for flawless HD Makeup and Airbrush Makeup services tailored for your special day.",
     images: ["/og-default.jpg"],
   },
 };

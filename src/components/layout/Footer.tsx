@@ -77,8 +77,9 @@ export default function Footer() {
                 {[
                   { label: "Home", href: "/" },
                   { label: "About", href: "/#about" },
-                  { label: "Bridal Services", href: "/bridal" },
-                  { label: "Salon Services", href: "/salon" },
+                  { label: "Bridal Services", href: "/bridal-services" },
+                  { label: "Bridal Makeup in Madurai", href: "/bridal-makeup-madurai" },
+                  { label: "Salon Services", href: "/salon-services" },
                   { label: "Gallery", href: "/#gallery" },
                   { label: "Contact", href: "/#booking" },
                 ].map((link) => (
