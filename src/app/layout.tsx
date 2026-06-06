@@ -24,7 +24,7 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.meenumakeover.in'),
   title: "Meenu Makeover | Luxury Bridal Makeup Artist in Madurai",
-  description: "Welcome to Meenu Makeover, the premier Luxury Bridal Studio. Book the best Bridal Makeup Artist in Madurai for flawless HD Makeup and Airbrush Makeup services tailored for your special day.",
+  description: "Luxury Bridal Makeup Artist in Madurai offering HD Makeup, Airbrush Makeup, Waterproof Bridal Makeup and Premium Bridal Styling. Book your bridal consultation with Meenu Makeover today.",
   icons: {
     icon: [
       { url: '/favicon.ico?v=2', sizes: 'any' },
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Meenu Makeover | Luxury Bridal Makeup Artist in Madurai",
-    description: "Welcome to Meenu Makeover, the premier Luxury Bridal Studio. Book the best Bridal Makeup Artist in Madurai for flawless HD Makeup and Airbrush Makeup services tailored for your special day.",
+    description: "Luxury Bridal Makeup Artist in Madurai offering HD Makeup, Airbrush Makeup, Waterproof Bridal Makeup and Premium Bridal Styling. Book your bridal consultation with Meenu Makeover today.",
     url: "https://www.meenumakeover.in",
     siteName: "Meenu Makeover",
     images: [
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Meenu Makeover | Luxury Bridal Makeup Artist in Madurai",
-    description: "Welcome to Meenu Makeover, the premier Luxury Bridal Studio. Book the best Bridal Makeup Artist in Madurai for flawless HD Makeup and Airbrush Makeup services tailored for your special day.",
+    description: "Luxury Bridal Makeup Artist in Madurai offering HD Makeup, Airbrush Makeup, Waterproof Bridal Makeup and Premium Bridal Styling. Book your bridal consultation with Meenu Makeover today.",
     images: ["/og-default.jpg"],
   },
 };
