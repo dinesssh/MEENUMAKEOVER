@@ -105,12 +105,6 @@ export default function Footer() {
               
               <div className="space-y-4 mb-6">
                 <a 
-                  href="tel:+917397601444"
-                  className="flex items-center gap-3 font-sans text-[15px] tracking-wide text-white/80 hover:text-[#C8A15A] transition-colors"
-                >
-                  <Phone size={16} className="text-[#C8A15A]" /> +91 73976 01444
-                </a>
-                <a 
                   href="tel:+917397631999"
                   className="flex items-center gap-3 font-sans text-[15px] tracking-wide text-white/80 hover:text-[#C8A15A] transition-colors"
                 >
@@ -128,7 +122,7 @@ export default function Footer() {
 
               {/* Luxury Contact Action Buttons */}
               <div className="flex gap-3 mb-8 w-full">
-                <a href="tel:+917397601444" className="flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 hover:border-[#C8A15A]/40 rounded-sm hover:bg-white/10 transition-colors group">
+                <a href="tel:+917397631999" className="flex-1 flex flex-col sm:flex-row items-center justify-center gap-2 py-3 bg-white/5 border border-white/10 hover:border-[#C8A15A]/40 rounded-sm hover:bg-white/10 transition-colors group">
                   <Phone size={14} className="text-[#C8A15A] group-hover:scale-110 transition-transform" />
                   <span className="font-sans text-[9px] uppercase tracking-[0.15em] text-white/80 group-hover:text-white mt-1 sm:mt-0">Call Now</span>
                 </a>

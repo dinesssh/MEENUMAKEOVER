@@ -1,7 +1,7 @@
 export const siteConfig = {
   businessName: "Meenu Makeover",
-  whatsappNumber: "917397601444",
-  displayWhatsapp: "+91 73976 01444",
+  whatsappNumber: "917397631999",
+  displayWhatsapp: "+91 73976 31999",
   instagram: "https://instagram.com/meenu_makeover_madurai",
   instagramHandle: "@meenu_makeover_madurai",
   email: "meenushivani748@gmail.com",
