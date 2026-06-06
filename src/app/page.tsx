@@ -95,10 +95,16 @@ export default async function Home() {
       
       {/* SEO Internal Link Block */}
       <section className="py-12 bg-white text-center border-t border-[#E5E5E5]">
-        <div className="max-w-3xl mx-auto px-6">
-          <p className="text-[#4A4A4A] font-light text-sm leading-relaxed">
-            Meenu Makeover is widely recognized as the premier <a href="/bridal-makeup-madurai" className="text-[#B8860B] font-medium hover:underline">Bridal Makeup Artist in Madurai</a>. We offer luxury on-venue styling, HD makeup, and airbrush services tailored for your special day.
+        <div className="max-w-4xl mx-auto px-6">
+          <p className="text-[#4A4A4A] font-light text-sm leading-relaxed mb-4">
+            Meenu Makeover is widely recognized as the premier <a href="/bridal-makeup-madurai" className="text-[#B8860B] font-medium hover:underline">Bridal Makeup Artist in Madurai</a>. We specialize in providing luxurious, on-venue transformations for the modern bride.
           </p>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-medium uppercase tracking-wider text-[#B8860B]">
+            <a href="/hd-bridal-makeup-madurai" className="hover:underline">HD Bridal Makeup</a>
+            <a href="/airbrush-makeup-madurai" className="hover:underline">Airbrush Makeup</a>
+            <a href="/engagement-makeup-madurai" className="hover:underline">Engagement Makeup</a>
+            <a href="/reception-makeup-madurai" className="hover:underline">Reception Makeup</a>
+          </div>
         </div>
       </section>
 
